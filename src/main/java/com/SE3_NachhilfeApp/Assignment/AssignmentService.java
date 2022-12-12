@@ -1,10 +1,11 @@
 package com.SE3_NachhilfeApp.Assignment;
 
-import com.SE3_NachhilfeApp.Subjects.Subject;
-import com.SE3_NachhilfeApp.Subjects.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+import java.util.UUID;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,47 +19,54 @@ public class AssignmentService {
         this.assignmentRepository = assignmentRepository;
     }
 
-    //GET ALL SUBJECTS
+    //GET ALL ASSIGNMENT
     public List<Assignment> getAssignments(){
         return assignmentRepository.findAll();
     }
 
-    //ADD NEW SUBJECT
+    //GET ALL ASSIGNMENT
+    public Assignment getAssignmentsById(UUID id){
+        return assignmentRepository.findById(id).orElseThrow(() -> new IllegalStateException("assignment does not exist"));
+    }
+
+    public List<Assignment> getAssignmentsByOwner(UUID id){
+        return assignmentRepository.findAssignmentByOwner(id).orElseThrow(() -> new IllegalStateException("owner does not have assignments"));
+    }
+
+
+    //ADD NEW ASSIGNMENT
     public void addNewAssignment(Assignment assignment) {
         assignmentRepository.save(assignment);
     }
 
-    //TODO DELETE ASSIGNMENT
-    /*
-    public void deleteStudent(Long id) {
-        subjectRepository.findById(id);
-        boolean exists = subjectRepository.existsById(id);
+    //DELETE ASSIGNMENT
+    public void deleteAssignment(UUID id) {
+        assignmentRepository.findById(id);
+        boolean exists = assignmentRepository.existsById(id);
 
         if(!exists){
-            throw new IllegalStateException("student does not exist");
+            throw new IllegalStateException("assignment does not exist");
         }
 
-        subjectRepository.deleteById(id);
+        assignmentRepository.deleteById(id);
     }
-    */
 
-    //TODO UPDATE ASSIGNEMNT
-    /*
+    //UPDATE ASSIGNMENT
     @Transactional
-    public void updateStudent(Long studentId, String name, String mail) {
-        Student student = subjectRepository.findById(studentId).orElseThrow(() -> new IllegalStateException("student does not exist"));
+    public void updateAssignment(UUID assignmentId, String name, String description, UUID subjectID) {
+        Assignment assignment = assignmentRepository.findById(assignmentId).orElseThrow(() -> new IllegalStateException("assignment does not exist"));
 
-        if(name != null && name.length() > 0 && !Objects.equals(student.getName(), name)){
-            student.setName(name);
+        if(name != null && name.length() > 0 && !Objects.equals(assignment.getName(), name)){
+            assignment.setName(name);
         }
 
-        if(mail != null && mail.length() > 0 && !Objects.equals(student.getMail(), mail)){
-            Optional<Student> studentOptional = studentsRepository.findStudentByEmail(mail);
-            if(studentOptional.isPresent()){
-                throw new IllegalStateException("mail already taken");
-            }
-            student.setMail(mail);
+        if(description != null && description.length() > 0 && !Objects.equals(assignment.getDescription(), description)){
+            assignment.setDescription(description);
         }
+
+        if(subjectID != null && !Objects.equals(assignment.getSubject(), subjectID)){
+            assignment.setSubject(subjectID);
+        }
+
     }
-    */
 }

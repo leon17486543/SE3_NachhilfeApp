@@ -2,9 +2,12 @@ package com.SE3_NachhilfeApp.Member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MemberService {
@@ -21,6 +24,12 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    //GET Member BY ID
+    public Member getMemberById(UUID id){
+        return memberRepository.findById(id).orElseThrow(() -> new IllegalStateException("member does not exist"));
+
+    }
+
     //ADD NEW Member
     public void addNewMember(Member member) {
         Optional<Member> userOptional = memberRepository.findMemberByName(member.getName());
@@ -32,37 +41,33 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    //TODO DELETE Member
-    /*
-    public void deleteStudent(Long id) {
-        subjectRepository.findById(id);
-        boolean exists = subjectRepository.existsById(id);
+    //DELETE Member BY ID
+    public void deleteMember(UUID id) {
+        memberRepository.findById(id);
+        boolean exists = memberRepository.existsById(id);
 
         if(!exists){
-            throw new IllegalStateException("student does not exist");
+            throw new IllegalStateException("user does not exist");
         }
 
-        subjectRepository.deleteById(id);
+        memberRepository.deleteById(id);
     }
-    */
 
-    //TODO UPDATE Member
-    /*
+    //UPDATE Member BY ID
     @Transactional
-    public void updateStudent(Long studentId, String name, String mail) {
-        Student student = subjectRepository.findById(studentId).orElseThrow(() -> new IllegalStateException("student does not exist"));
+    public void updateMember(UUID userId, String name, boolean needsHelp, boolean offersHelp) {
+        Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalStateException("user does not exist"));
 
-        if(name != null && name.length() > 0 && !Objects.equals(student.getName(), name)){
-            student.setName(name);
+        if(name != null && name.length() > 0){
+            member.setName(name);
         }
 
-        if(mail != null && mail.length() > 0 && !Objects.equals(student.getMail(), mail)){
-            Optional<Student> studentOptional = studentsRepository.findStudentByEmail(mail);
-            if(studentOptional.isPresent()){
-                throw new IllegalStateException("mail already taken");
-            }
-            student.setMail(mail);
+        if(needsHelp || !needsHelp){
+            member.setNeedsHelp(needsHelp);
+        }
+
+        if(offersHelp || !offersHelp){
+            member.setOffersHelp(offersHelp);
         }
     }
-    */
 }
