@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -50,8 +49,8 @@ public class TaskService {
     public void updateTask(UUID taskId, String userSolution) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException("task does not exist"));
 
-        if(userSolution != null && userSolution.length() > 0 && !Objects.equals(task.getUserSolution(), userSolution)){
-            task.setUserSolution(userSolution);
+        if(userSolution != null && userSolution.length() > 0 && !Objects.equals(task.getCorrectSolution(), userSolution)){
+            task.setCorrectSolution(userSolution);
         }
 
     }

@@ -11,27 +11,28 @@ public class Subject {
     private UUID id = UUID.randomUUID();
     private String name;
 
+    //Ctor
     public Subject() {
 
     }
-
     public Subject(String name) {
         this.name = name;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
+    //toString
     @Override
     public String toString() {
         return "Subjects{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    //Get Set
+    public UUID getId() {
+        return id;
+    }
+    public String getName() {
+        return name;
     }
 }

@@ -1,7 +1,5 @@
 package com.SE3_NachhilfeApp.Subjects;
 
-import com.SE3_NachhilfeApp.Student.Student;
-import com.SE3_NachhilfeApp.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

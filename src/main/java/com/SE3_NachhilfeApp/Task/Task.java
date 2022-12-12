@@ -3,7 +3,6 @@ package com.SE3_NachhilfeApp.Task;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 import java.util.UUID;
 
 @Entity
@@ -13,16 +12,17 @@ public class Task {
     private UUID id = UUID.randomUUID();
     private UUID assignmentID;
     private String name;
-    private String userSolution;
+    private String correctSolution;
 
+    //Ctor
     public Task() {
     }
-
     public Task(UUID assignmentID, String name) {
         this.name = name;
         this.assignmentID = assignmentID;
     }
 
+    //toString
     @Override
     public String toString() {
         return "Task{" +
@@ -32,27 +32,23 @@ public class Task {
                 '}';
     }
 
+    //Get Set
     public UUID getAssignmentID() {
         return assignmentID;
     }
-
     public void setAssignmentID(UUID assignmentID) {
         this.assignmentID = assignmentID;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getUserSolution() {
-        return userSolution;
+    public String getCorrectSolution() {
+        return correctSolution;
     }
-
-    public void setUserSolution(String userSolution) {
-        this.userSolution = userSolution;
+    public void setCorrectSolution(String userSolution) {
+        this.correctSolution = userSolution;
     }
 }
