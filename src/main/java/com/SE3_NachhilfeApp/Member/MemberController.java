@@ -35,13 +35,11 @@ public class MemberController {
         memberService.addNewMember(member);
     }
 
-    //TODO DELETE Member
     //DELETE BY ID
     @DeleteMapping(path = "delete/{userId}")
     public void deleteStudent(@PathVariable("userId") UUID userId){
         memberService.deleteMember(userId);
     }
-
 
     //UPDATE BY ID
     @PutMapping(path = "update/{userId}")

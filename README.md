@@ -17,7 +17,7 @@
       - //UPDATE BY ID   
       http://localhost:8080/api/v1/assignments/update/{assignmentID}?name={name}&description={description}&subjectId={subjectId}      
       Parameter name, description and subjectId must not be present at all time only if subject to change
-    * DELTE
+    * DELETE
       - //DELETE BY ID      
       http://localhost:8080/api/v1/assignments/delete/{assignmentID}
   + User:
@@ -34,6 +34,22 @@
       - //UPDATE BY ID   
       http://localhost:8080/api/v1/user/update/{userID}?name={name}&needsHelp={needsHelp}&offersHelp={offersHelp}      
       Parameter name, needsHelp and offersHelp must not be present at all time only if subject to change
-    * DELTE
+    * DELETE
       - //DELETE BY ID      
       http://localhost:8080/api/v1/user/delete/{userID}
+  + Solution:
+    * GET
+        - //ALL      
+          http://localhost:8080/api/v1/solution
+        - //BY ID      
+          http://localhost:8080/api/v1/solution/byId/{solutionID}
+    * POST
+        - //CREATE NEW SOLUTION      
+          http://localhost:8080/api/v1/solution/add       
+          JSON: {"taskID": "\<taskID\>", "submissionID": "\<submissionID\>", "solutionText": "\<solutionText\>"}
+    * PUT
+        - //UPDATE BY ID   
+          http://localhost:8080/api/v1/solution/update/{solutionID}?solutionText={solutionText}
+    * DELETE
+        - //DELETE BY ID      
+          http://localhost:8080/api/v1/solution/delete/{solutionID}
