@@ -24,27 +24,29 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    //GET Task BY ID
+    public Task getTaskById(UUID taskID){
+        return taskRepository.findById(taskID).orElseThrow(() -> new IllegalStateException("Task does not exist"));
+    }
+
     //ADD NEW Tasks
     public void addNewTask(Task task) {
-
         taskRepository.save(task);
     }
 
-    //TODO DELETE Task
-    /*
-    public void deleteStudent(Long id) {
-        subjectRepository.findById(id);
-        boolean exists = subjectRepository.existsById(id);
+    //DELETE BY ID
+    public void deleteTask(UUID taskID) {
+        taskRepository.findById(taskID);
+        boolean exists = taskRepository.existsById(taskID);
 
         if(!exists){
-            throw new IllegalStateException("student does not exist");
+            throw new IllegalStateException("Task does not exist");
         }
 
-        subjectRepository.deleteById(id);
+        taskRepository.deleteById(taskID);
     }
-    */
 
-    //TODO UPDATE Task
+    //UPDATE BY ID
     @Transactional
     public void updateTask(UUID taskId, String userSolution) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException("task does not exist"));

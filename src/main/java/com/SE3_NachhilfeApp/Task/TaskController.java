@@ -17,28 +17,32 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    //ALL
     @GetMapping()
     public List<Task> getTasks(){
         return taskService.getTasks();
     }
 
+    //GET BY ID
+    @GetMapping(path = "byId/{taskId}")
+    public Task getTaskById(@PathVariable("taskId") UUID taskId){
+        return taskService.getTaskById(taskId);
+    }
+
+    //ADD NEW
     @PostMapping
     public void createNewTask(@RequestBody Task task){
         taskService.addNewTask(task);
     }
 
-    //TODO DELETE Task
-    //DELETE
-    /*
-    @DeleteMapping(path = "{studentId}")
-    public void deleteStudent(@PathVariable("studentId") Long id){
-        subjectService.deleteStudent(id);
+    //DELETE BY ID
+    @DeleteMapping(path = "delete/{taskId}")
+    public void deleteTask(@PathVariable("taskId") UUID taskId){
+        taskService.deleteTask(taskId);
     }
-     */
 
-    //TODO Task is still in JSON format
     //PUT
-    @PutMapping(path = "{taskId}")
+    @PutMapping(path = "update/{taskId}")
     public void updateStudent(@PathVariable("taskId") UUID taskid, @RequestBody String userSolution){
         taskService.updateTask(taskid, userSolution);
     }
