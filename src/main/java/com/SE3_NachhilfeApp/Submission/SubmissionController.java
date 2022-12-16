@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "api/v1/submission")
 public class SubmissionController {
 
@@ -38,7 +39,7 @@ public class SubmissionController {
 
 
     //DELETE BY ID
-    @DeleteMapping(path = "{delete/{submissionId}")
+    @DeleteMapping(path = "delete/{submissionId}")
     public void deleteSubmission(@PathVariable("submissionId") UUID submissionId){
         submissionService.deleteSubmission(submissionId);
     }
