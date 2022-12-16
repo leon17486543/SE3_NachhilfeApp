@@ -1,8 +1,5 @@
 package com.SE3_NachhilfeApp.Solution;
 
-
-import com.SE3_NachhilfeApp.Submission.Submission;
-import com.SE3_NachhilfeApp.Submission.SubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

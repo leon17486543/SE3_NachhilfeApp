@@ -22,13 +22,13 @@ public class SolutionController {
 
     //ALL
     @GetMapping()
-    public List<Solution> getTasks(){
+    public List<Solution> getSolution(){
         return solutionService.getSolution();
     }
 
     //GET BY ID
     @GetMapping(path = "byId/{solutionId}")
-    public Solution getMemberById(@PathVariable("solutionId") UUID solutionId){
+    public Solution getSolutionById(@PathVariable("solutionId") UUID solutionId){
         return solutionService.getSolutionById(solutionId);
     }
 
@@ -40,13 +40,13 @@ public class SolutionController {
 
     //DELETE BY ID
     @DeleteMapping(path = "delete/{solutionId}")
-    public void deleteStudent(@PathVariable("solutionId") UUID solutionId){
+    public void deleteSolution(@PathVariable("solutionId") UUID solutionId){
         solutionService.deleteSolution(solutionId);
     }
 
     //UPDATE BY ID
     @PutMapping(path = "update/{solutionId}")
-    public void updateMember(@PathVariable("solutionId") UUID solutionId,
+    public void updateSolution(@PathVariable("solutionId") UUID solutionId,
                              @RequestParam() String solutionText){
         solutionService.updateSolution(solutionId, solutionText);
     }
