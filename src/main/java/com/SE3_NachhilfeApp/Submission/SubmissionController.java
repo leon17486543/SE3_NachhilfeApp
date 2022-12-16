@@ -3,7 +3,9 @@ package com.SE3_NachhilfeApp.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "api/v1/submission")
@@ -16,31 +18,35 @@ public class SubmissionController {
         this.submissionService = submissionService;
     }
 
+    //ALL
     @GetMapping()
-    public List<Submission> getTasks(){
+    public List<Submission> getSubmission(){
         return submissionService.getSubmission();
     }
 
+    //GET BY ID
+    @GetMapping(path = "byId/{submissionId}")
+    public Submission getSubmissionById(@PathVariable("submissionId") UUID submissionId){
+        return submissionService.getSubmissionById(submissionId);
+    }
+
+    //ADD NEW
     @PostMapping
-    public void createNewTask(@RequestBody Submission submission){
+    public void createNewSubmission(@RequestBody Submission submission){
         submissionService.addNewSubmission(submission);
     }
 
-    //TODO DELETE Submission
-    //DELETE
-    /*
-    @DeleteMapping(path = "{studentId}")
-    public void deleteStudent(@PathVariable("studentId") Long id){
-        subjectService.deleteStudent(id);
-    }
-     */
 
-    //TODO UPDATE Submission
-    //PUT
-    /*
-    @PutMapping(path = "{taskId}")
-    public void updateStudent(@PathVariable("taskId") UUID taskid, @RequestBody String userSolution){
-        workloadService.updateTask(taskid, userSolution);
+    //DELETE BY ID
+    @DeleteMapping(path = "{delete/{submissionId}")
+    public void deleteSubmission(@PathVariable("submissionId") UUID submissionId){
+        submissionService.deleteSubmission(submissionId);
     }
-    */
+
+
+    //UPDATE BY ID
+    @PutMapping(path = "update/{submissionId}")
+    public void updateStudent(@PathVariable("submissionId") UUID submissionId, @RequestBody LocalDate date){
+        submissionService.updateSubmission(submissionId, date);
+    }
 }

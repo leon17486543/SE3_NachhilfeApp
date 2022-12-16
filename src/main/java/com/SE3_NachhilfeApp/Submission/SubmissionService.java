@@ -5,8 +5,11 @@ import com.SE3_NachhilfeApp.Workload.Workload;
 import com.SE3_NachhilfeApp.Workload.WorkloadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SubmissionService {
@@ -18,41 +21,42 @@ public class SubmissionService {
         this.submissionRepository = submissionRepository;
     }
 
-    //GET ALL Tasks
+    //GET ALL Submission
     public List<Submission> getSubmission(){
         return submissionRepository.findAll();
     }
 
-    //ADD NEW Tasks
+    //GET Submission BY ID
+    public Submission getSubmissionById(UUID submissionID){
+        return submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException("Submission does not exist"));
+
+    }
+
+    //ADD NEW Submission
     public void addNewSubmission(Submission submission) {
         submissionRepository.save(submission);
     }
 
-    //TODO DELETE Submission
-    /*
-    public void deleteStudent(Long id) {
-        subjectRepository.findById(id);
-        boolean exists = subjectRepository.existsById(id);
+    //DELETE Submission BY ID
+    public void deleteSubmission(UUID submissionID) {
+        submissionRepository.findById(submissionID);
+        boolean exists = submissionRepository.existsById(submissionID);
 
         if(!exists){
-            throw new IllegalStateException("student does not exist");
+            throw new IllegalStateException("Submission does not exist");
         }
 
-        subjectRepository.deleteById(id);
+        submissionRepository.deleteById(submissionID);
     }
-    */
 
-    //TODO UPDATE Submission
-    /*
+    //UPDATE Submission BY ID
     @Transactional
-    public void updateTask(UUID taskId, String userSolution) {
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException("task does not exist"));
+    public void updateSubmission(UUID submissionID, LocalDate date) {
+        Submission submission = submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException("submission does not exist"));
 
-        if(userSolution != null && userSolution.length() > 0 && !Objects.equals(task.getUserSolution(), userSolution)){
-            task.setUserSolution(userSolution);
+        if(date != null){
+            submission.setSubmissionDate(date);
         }
 
     }
-
-     */
 }
