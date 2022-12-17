@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -17,34 +18,34 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
+    //GET BY ID
     @GetMapping()
     public List<Subject> getSubjects(){
         return	subjectService.getSubjects();
     }
 
+    //GET BY ID
+    @GetMapping(path = "byId/{subjectId}")
+    public Subject getSubjectById(@PathVariable("subjectId") UUID subjectId){
+        return subjectService.getSubjectById(subjectId);
+    }
+
+    //ADD NEW
     @PostMapping
     public void createNewSubject(@RequestBody Subject subject){
         subjectService.addNewSubject(subject);
     }
 
-    //TODO DELETE SUBJECT
-    //DELETE
-    /*
-    @DeleteMapping(path = "{studentId}")
-    public void deleteStudent(@PathVariable("studentId") Long id){
-        subjectService.deleteStudent(id);
+    //DELETE BY ID
+    @DeleteMapping(path = "delete/{subjectId}")
+    public void deleteStudent(@PathVariable("subjectId") UUID subjectId){
+        subjectService.deleteSubject(subjectId);
     }
-     */
 
-    //TODO UPDATE SUBJECT
     //PUT
-    /*
-    @PutMapping(path = "{studentId}")
-    public void updateStudent(@PathVariable("studentId") Long studentId,
-                              @RequestParam("required = false") String name,
-                              @RequestParam("required = false") String mail){
-        subjectService.updateStudent(studentId, name, mail);
+    @PutMapping(path = "update/{subjectId}")
+    public void updateStudent(@PathVariable("subjectId") UUID subjectId,
+                              @RequestParam() String name){
+        subjectService.updateSubject(subjectId, name);
     }
-
-     */
 }
