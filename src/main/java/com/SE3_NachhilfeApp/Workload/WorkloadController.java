@@ -5,6 +5,7 @@ import com.SE3_NachhilfeApp.Task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,31 +21,33 @@ public class WorkloadController {
         this.workloadService = workloadService;
     }
 
+    //GET ALL
     @GetMapping()
     public List<Workload> getTasks(){
         return workloadService.getWorkload();
     }
 
+    //GET BY ID
+    @GetMapping(path = "byId/{workloadId}")
+    public Workload getWorkloadById(@PathVariable("workloadId") UUID workloadId){
+        return workloadService.getWorkloadById(workloadId);
+    }
+
+    //ADD NEW
     @PostMapping
     public void createNewTask(@RequestBody Workload workload){
         workloadService.addNewWorkload(workload);
     }
 
-    //TODO DELETE Workload
-    //DELETE
-    /*
-    @DeleteMapping(path = "{studentId}")
-    public void deleteStudent(@PathVariable("studentId") Long id){
-        subjectService.deleteStudent(id);
+    //DELETE BY ID
+    @DeleteMapping(path = "delete/{workloadId}")
+    public void deleteWorkload(@PathVariable("workloadId") UUID workloadId){
+        workloadService.deleteWorkload(workloadId);
     }
-     */
 
-    //TODO UPDATE Workload
-    //PUT
-    /*
-    @PutMapping(path = "{taskId}")
-    public void updateStudent(@PathVariable("taskId") UUID taskid, @RequestBody String userSolution){
-        workloadService.updateTask(taskid, userSolution);
+    //UPDATE BY ID
+    @PutMapping(path = "update/{workloadId}")
+    public void updateStudent(@PathVariable("workloadId") UUID workloadId, @RequestBody LocalDate dueDate){
+        workloadService.updateWorkload(workloadId, dueDate);
     }
-    */
 }

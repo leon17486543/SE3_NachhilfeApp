@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -22,9 +23,15 @@ public class WorkloadService {
         this.workloadRepository = workloadRepository;
     }
 
-    //GET ALL Tasks
+    //GET ALL
     public List<Workload> getWorkload(){
         return workloadRepository.findAll();
+    }
+
+    //GET Workload BY ID
+    public Workload getWorkloadById(UUID workloadID){
+        return workloadRepository.findById(workloadID).orElseThrow(() -> new IllegalStateException("Workload does not exist"));
+
     }
 
     //ADD NEW Tasks
@@ -32,31 +39,26 @@ public class WorkloadService {
         workloadRepository.save(workload);
     }
 
-    //TODO DELETE Workload
-    /*
-    public void deleteStudent(Long id) {
-        subjectRepository.findById(id);
-        boolean exists = subjectRepository.existsById(id);
+    //DELETE Workload BY ID
+    public void deleteWorkload(UUID workloadID) {
+        workloadRepository.findById(workloadID);
+        boolean exists = workloadRepository.existsById(workloadID);
 
         if(!exists){
-            throw new IllegalStateException("student does not exist");
+            throw new IllegalStateException("Workload does not exist");
         }
 
-        subjectRepository.deleteById(id);
+        workloadRepository.deleteById(workloadID);
     }
-    */
 
-    //TODO UPDATE Workload
-    /*
+    //UPDATE Workload BY ID
     @Transactional
-    public void updateTask(UUID taskId, String userSolution) {
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException("task does not exist"));
+    public void updateWorkload(UUID workloadID, LocalDate dueDate) {
+        Workload workload = workloadRepository.findById(workloadID).orElseThrow(() -> new IllegalStateException("Workload does not exist"));
 
-        if(userSolution != null && userSolution.length() > 0 && !Objects.equals(task.getUserSolution(), userSolution)){
-            task.setUserSolution(userSolution);
+        if(dueDate != null && dueDate.isAfter(LocalDate.now())){
+            workload.setDueDate(dueDate);
         }
 
     }
-
-     */
 }

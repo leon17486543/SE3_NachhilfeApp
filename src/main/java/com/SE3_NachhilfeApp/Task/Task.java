@@ -51,4 +51,10 @@ public class Task {
     public void setCorrectSolution(String userSolution) {
         this.correctSolution = userSolution;
     }
+    public UUID getId() {
+        return id;
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }
