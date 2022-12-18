@@ -20,31 +20,31 @@ public class TaskController {
 
     //ALL
     @GetMapping()
-    public List<Task> getTasks(){
-        return taskService.getTasks();
+    public List<Task> getAll(){
+        return taskService.getAll();
     }
 
     //GET BY ID
     @GetMapping(path = "byId/{taskId}")
-    public Task getTaskById(@PathVariable("taskId") UUID taskId){
-        return taskService.getTaskById(taskId);
+    public Task getById(@PathVariable("taskId") UUID taskId){
+        return taskService.getById(taskId);
     }
 
     //ADD NEW
     @PostMapping
-    public void createNewTask(@RequestBody Task task){
-        taskService.addNewTask(task);
+    public void createNew(@RequestBody Task task){
+        taskService.createNew(task);
     }
 
     //DELETE BY ID
     @DeleteMapping(path = "delete/{taskId}")
-    public void deleteTask(@PathVariable("taskId") UUID taskId){
-        taskService.deleteTask(taskId);
+    public void deleteById(@PathVariable("taskId") UUID taskId){
+        taskService.deleteById(taskId);
     }
 
     //PUT
     @PutMapping(path = "update/{taskId}")
-    public void updateStudent(@PathVariable("taskId") UUID taskid, @RequestBody String userSolution){
-        taskService.updateTask(taskid, userSolution);
+    public void updateByID(@PathVariable("taskId") UUID taskid, @RequestBody String userSolution){
+        taskService.updateByID(taskid, userSolution);
     }
 }

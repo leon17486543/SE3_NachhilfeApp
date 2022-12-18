@@ -19,23 +19,23 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    //GET ALL Tasks
-    public List<Task> getTasks(){
+    //GET ALL
+    public List<Task> getAll(){
         return taskRepository.findAll();
     }
 
     //GET Task BY ID
-    public Task getTaskById(UUID taskID){
+    public Task getById(UUID taskID){
         return taskRepository.findById(taskID).orElseThrow(() -> new IllegalStateException("Task does not exist"));
     }
 
     //ADD NEW Tasks
-    public void addNewTask(Task task) {
+    public void createNew(Task task) {
         taskRepository.save(task);
     }
 
-    //DELETE BY ID
-    public void deleteTask(UUID taskID) {
+    //DELETE Task BY ID
+    public void deleteById(UUID taskID) {
         taskRepository.findById(taskID);
         boolean exists = taskRepository.existsById(taskID);
 
@@ -46,9 +46,9 @@ public class TaskService {
         taskRepository.deleteById(taskID);
     }
 
-    //UPDATE BY ID
+    //UPDATE Task BY ID
     @Transactional
-    public void updateTask(UUID taskId, String userSolution) {
+    public void updateByID(UUID taskId, String userSolution) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException("task does not exist"));
 
         if(userSolution != null && userSolution.length() > 0 && !Objects.equals(task.getCorrectSolution(), userSolution)){

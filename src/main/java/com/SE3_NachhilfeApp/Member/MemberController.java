@@ -20,34 +20,34 @@ public class MemberController {
 
     //GET ALL
     @GetMapping()
-    public List<Member> getMember(){
-        return memberService.getMember();
+    public List<Member> getAll(){
+        return memberService.getAll();
     }
 
     //GET BY ID
     @GetMapping(path = "byId/{userId}")
-    public Member getMemberById(@PathVariable("userId") UUID userId){
-        return memberService.getMemberById(userId);
+    public Member getById(@PathVariable("userId") UUID userId){
+        return memberService.getById(userId);
     }
 
     //ADD NEW
     @PostMapping(path = "add")
-    public void createNewMember(@RequestBody Member member){
-        memberService.addNewMember(member);
+    public void createNew(@RequestBody Member member){
+        memberService.createNew(member);
     }
 
     //DELETE BY ID
     @DeleteMapping(path = "delete/{userId}")
-    public void deleteStudent(@PathVariable("userId") UUID userId){
-        memberService.deleteMember(userId);
+    public void deleteById(@PathVariable("userId") UUID userId){
+        memberService.deleteById(userId);
     }
 
     //UPDATE BY ID
     @PutMapping(path = "update/{userId}")
-    public void updateMember(@PathVariable("userId") UUID userId,
+    public void updateById(@PathVariable("userId") UUID userId,
                              @RequestParam(required = false) String name,
                              @RequestParam(required = false) boolean needsHelp,
                              @RequestParam(required = false) boolean offersHelp){
-        memberService.updateMember(userId, name, needsHelp, offersHelp);
+        memberService.updateById(userId, name, needsHelp, offersHelp);
     }
 }

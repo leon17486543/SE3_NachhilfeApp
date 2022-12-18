@@ -1,7 +1,5 @@
 package com.SE3_NachhilfeApp.Workload;
 
-import com.SE3_NachhilfeApp.Task.Task;
-import com.SE3_NachhilfeApp.Task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,31 +21,31 @@ public class WorkloadController {
 
     //GET ALL
     @GetMapping()
-    public List<Workload> getWorkload(){
-        return workloadService.getWorkload();
+    public List<Workload> getAll(){
+        return workloadService.getAll();
     }
 
     //GET BY ID
     @GetMapping(path = "byId/{workloadId}")
-    public Workload getWorkloadById(@PathVariable("workloadId") UUID workloadId){
-        return workloadService.getWorkloadById(workloadId);
+    public Workload getById(@PathVariable("workloadId") UUID workloadId){
+        return workloadService.getById(workloadId);
     }
 
     //ADD NEW
     @PostMapping
-    public void createNewWorkload(@RequestBody Workload workload){
-        workloadService.addNewWorkload(workload);
+    public void createNew(@RequestBody Workload workload){
+        workloadService.createNew(workload);
     }
 
     //DELETE BY ID
     @DeleteMapping(path = "delete/{workloadId}")
-    public void deleteWorkload(@PathVariable("workloadId") UUID workloadId){
-        workloadService.deleteWorkload(workloadId);
+    public void deleteById(@PathVariable("workloadId") UUID workloadId){
+        workloadService.deleteById(workloadId);
     }
 
     //UPDATE BY ID
     @PutMapping(path = "update/{workloadId}")
-    public void updateWorkload(@PathVariable("workloadId") UUID workloadId, @RequestBody LocalDate dueDate){
-        workloadService.updateWorkload(workloadId, dueDate);
+    public void updateById(@PathVariable("workloadId") UUID workloadId, @RequestBody LocalDate dueDate){
+        workloadService.updateById(workloadId, dueDate);
     }
 }

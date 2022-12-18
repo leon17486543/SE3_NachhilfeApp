@@ -1,11 +1,8 @@
 package com.SE3_NachhilfeApp.Assignment;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -20,41 +17,43 @@ public class AssignmentController {
         this.assignmentService = assignmentService;
     }
 
+    //GET ALL
     @GetMapping()
-    public List<Assignment> getAssignments(){
-        return	assignmentService.getAssignments();
+    public List<Assignment> getAll(){
+        return	assignmentService.getAll();
     }
 
+    //GET BY ID
     @GetMapping(path = "byId/{assignmentId}")
-    public Assignment getAssignmentsById(@PathVariable("assignmentId") UUID assignmentId){
-        return	assignmentService.getAssignmentsById(assignmentId);
+    public Assignment getById(@PathVariable("assignmentId") UUID assignmentId){
+        return	assignmentService.getById(assignmentId);
     }
 
+    //GET BY OWNER
     @GetMapping(path = "byOwner/{ownerId}")
-    public List<Assignment> getAssignmentsByOwner(@PathVariable("ownerId") UUID ownerId){
-        return	assignmentService.getAssignmentsByOwner(ownerId);
+    public List<Assignment> getByOwner(@PathVariable("ownerId") UUID ownerId){
+        return	assignmentService.getByOwner(ownerId);
     }
 
-
+    //ADD NEW
     @PostMapping(path = "add")
-    public void createNewAssignment(@RequestBody Assignment assignment){
-        assignmentService.addNewAssignment(assignment);
+    public void createNew(@RequestBody Assignment assignment){
+        assignmentService.addNew(assignment);
     }
 
-    //DELETE
+    //DELETE BY ID
     @DeleteMapping(path = "delete/{assignmentId}")
-    public void deleteAssignment(@PathVariable("assignmentId") UUID assignmentId){
-        assignmentService.deleteAssignment(assignmentId);
+    public void deleteById(@PathVariable("assignmentId") UUID assignmentId){
+        assignmentService.deleteById(assignmentId);
     }
 
-
-    //PUT
+    //UPDATE BY ID
     @PutMapping(path = "update/{assignmentId}")
-    public void updateAssignment(@PathVariable("assignmentId") UUID assignmentId,
+    public void updateById(@PathVariable("assignmentId") UUID assignmentId,
                               @RequestParam(required = false) String name,
                               @RequestParam(required = false) String description,
                                  @RequestParam(required = false) UUID subjectId){
-        assignmentService.updateAssignment(assignmentId, name, description, subjectId);
+        assignmentService.updateById(assignmentId, name, description, subjectId);
     }
 
 }

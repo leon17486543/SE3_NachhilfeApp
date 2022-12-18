@@ -1,8 +1,6 @@
 package com.SE3_NachhilfeApp.Submission;
 
 
-import com.SE3_NachhilfeApp.Workload.Workload;
-import com.SE3_NachhilfeApp.Workload.WorkloadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,24 +19,23 @@ public class SubmissionService {
         this.submissionRepository = submissionRepository;
     }
 
-    //GET ALL Submission
-    public List<Submission> getSubmission(){
+    //GET ALL
+    public List<Submission> getAll(){
         return submissionRepository.findAll();
     }
 
     //GET Submission BY ID
-    public Submission getSubmissionById(UUID submissionID){
+    public Submission getById(UUID submissionID){
         return submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException("Submission does not exist"));
-
     }
 
     //ADD NEW Submission
-    public void addNewSubmission(Submission submission) {
+    public void createNew(Submission submission) {
         submissionRepository.save(submission);
     }
 
     //DELETE Submission BY ID
-    public void deleteSubmission(UUID submissionID) {
+    public void deleteById(UUID submissionID) {
         submissionRepository.findById(submissionID);
         boolean exists = submissionRepository.existsById(submissionID);
 
@@ -51,7 +48,7 @@ public class SubmissionService {
 
     //UPDATE Submission BY ID
     @Transactional
-    public void updateSubmission(UUID submissionID, LocalDate date) {
+    public void updateById(UUID submissionID, LocalDate date) {
         Submission submission = submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException("submission does not exist"));
 
         if(date != null){

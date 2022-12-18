@@ -17,24 +17,23 @@ public class SolutionService {
         this.solutionRepository = solutionRepository;
     }
 
-    //GET ALL Solutions
-    public List<Solution> getSolution(){
+    //GET ALL
+    public List<Solution> getAll(){
         return solutionRepository.findAll();
     }
 
     //GET Solution BY ID
-    public Solution getSolutionById(UUID solutionID){
+    public Solution getById(UUID solutionID){
         return solutionRepository.findById(solutionID).orElseThrow(() -> new IllegalStateException("solution does not exist"));
-
     }
 
     //ADD NEW Solution
-    public void addNewSolution(Solution solution) {
+    public void createNew(Solution solution) {
         solutionRepository.save(solution);
     }
 
     //DELETE Solution BY ID
-    public void deleteSolution(UUID id) {
+    public void deleteById(UUID id) {
         solutionRepository.findById(id);
         boolean exists = solutionRepository.existsById(id);
 
@@ -47,7 +46,7 @@ public class SolutionService {
 
     //UPDATE Solution BY ID
     @Transactional
-    public void updateSolution(UUID id, String solutionText) {
+    public void updateById(UUID id, String solutionText) {
         Solution solution = solutionRepository.findById(id).orElseThrow(() -> new IllegalStateException("solution does not exist"));
 
         if(solutionText != null && solutionText.length() > 0){

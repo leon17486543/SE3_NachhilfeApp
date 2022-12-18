@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,19 +18,19 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    //GET ALL Member
-    public List<Member> getMember(){
+    //GET ALL
+    public List<Member> getAll(){
         return memberRepository.findAll();
     }
 
     //GET Member BY ID
-    public Member getMemberById(UUID id){
+    public Member getById(UUID id){
         return memberRepository.findById(id).orElseThrow(() -> new IllegalStateException("member does not exist"));
 
     }
 
     //ADD NEW Member
-    public void addNewMember(Member member) {
+    public void createNew(Member member) {
         Optional<Member> userOptional = memberRepository.findMemberByName(member.getName());
 
         if(userOptional.isPresent()){
@@ -42,7 +41,7 @@ public class MemberService {
     }
 
     //DELETE Member BY ID
-    public void deleteMember(UUID id) {
+    public void deleteById(UUID id) {
         memberRepository.findById(id);
         boolean exists = memberRepository.existsById(id);
 
@@ -55,7 +54,7 @@ public class MemberService {
 
     //UPDATE Member BY ID
     @Transactional
-    public void updateMember(UUID userId, String name, boolean needsHelp, boolean offersHelp) {
+    public void updateById(UUID userId, String name, boolean needsHelp, boolean offersHelp) {
         Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalStateException("user does not exist"));
 
         if(name != null && name.length() > 0){

@@ -18,34 +18,34 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    //GET BY ID
+    //All
     @GetMapping()
-    public List<Subject> getSubjects(){
-        return	subjectService.getSubjects();
+    public List<Subject> getAll(){
+        return	subjectService.getAll();
     }
 
     //GET BY ID
     @GetMapping(path = "byId/{subjectId}")
-    public Subject getSubjectById(@PathVariable("subjectId") UUID subjectId){
-        return subjectService.getSubjectById(subjectId);
+    public Subject getById(@PathVariable("subjectId") UUID subjectId){
+        return subjectService.getById(subjectId);
     }
 
     //ADD NEW
     @PostMapping
-    public void createNewSubject(@RequestBody Subject subject){
-        subjectService.addNewSubject(subject);
+    public void createNew(@RequestBody Subject subject){
+        subjectService.createNew(subject);
     }
 
     //DELETE BY ID
     @DeleteMapping(path = "delete/{subjectId}")
-    public void deleteStudent(@PathVariable("subjectId") UUID subjectId){
-        subjectService.deleteSubject(subjectId);
+    public void deleteById(@PathVariable("subjectId") UUID subjectId){
+        subjectService.deleteById(subjectId);
     }
 
-    //PUT
+    //UPDATE BY ID
     @PutMapping(path = "update/{subjectId}")
-    public void updateStudent(@PathVariable("subjectId") UUID subjectId,
+    public void updateById(@PathVariable("subjectId") UUID subjectId,
                               @RequestParam() String name){
-        subjectService.updateSubject(subjectId, name);
+        subjectService.updateById(subjectId, name);
     }
 }

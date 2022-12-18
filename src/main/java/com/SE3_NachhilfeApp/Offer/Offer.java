@@ -3,8 +3,6 @@ package com.SE3_NachhilfeApp.Offer;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -33,27 +31,21 @@ public class Offer {
     }
 
     //Get Set
-
     public UUID getId() {
         return id;
     }
-
     public void setId(UUID id) {
         this.id = id;
     }
-
     public UUID getSubjectID() {
         return subjectID;
     }
-
     public void setSubjectID(UUID subjectID) {
         this.subjectID = subjectID;
     }
-
     public UUID getMemberID() {
         return memberID;
     }
-
     public void setMemberID(UUID memberID) {
         this.memberID = memberID;
     }

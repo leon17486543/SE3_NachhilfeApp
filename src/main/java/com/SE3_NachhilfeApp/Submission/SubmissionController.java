@@ -19,35 +19,35 @@ public class SubmissionController {
         this.submissionService = submissionService;
     }
 
-    //ALL
+    //GET ALL
     @GetMapping()
-    public List<Submission> getSubmission(){
-        return submissionService.getSubmission();
+    public List<Submission> getAll(){
+        return submissionService.getAll();
     }
 
     //GET BY ID
     @GetMapping(path = "byId/{submissionId}")
-    public Submission getSubmissionById(@PathVariable("submissionId") UUID submissionId){
-        return submissionService.getSubmissionById(submissionId);
+    public Submission getById(@PathVariable("submissionId") UUID submissionId){
+        return submissionService.getById(submissionId);
     }
 
     //ADD NEW
     @PostMapping
-    public void createNewSubmission(@RequestBody Submission submission){
-        submissionService.addNewSubmission(submission);
+    public void createNew(@RequestBody Submission submission){
+        submissionService.createNew(submission);
     }
 
 
     //DELETE BY ID
     @DeleteMapping(path = "delete/{submissionId}")
-    public void deleteSubmission(@PathVariable("submissionId") UUID submissionId){
-        submissionService.deleteSubmission(submissionId);
+    public void deleteById(@PathVariable("submissionId") UUID submissionId){
+        submissionService.deleteById(submissionId);
     }
 
 
     //UPDATE BY ID
     @PutMapping(path = "update/{submissionId}")
-    public void updateStudent(@PathVariable("submissionId") UUID submissionId, @RequestBody LocalDate date){
-        submissionService.updateSubmission(submissionId, date);
+    public void updateById(@PathVariable("submissionId") UUID submissionId, @RequestBody LocalDate date){
+        submissionService.updateById(submissionId, date);
     }
 }

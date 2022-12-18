@@ -18,19 +18,18 @@ public class SubjectService {
         this.subjectRepository = subjectRepository;
     }
 
-    //GET ALL SUBJECTS
-    public List<Subject> getSubjects(){
+    //GET ALL
+    public List<Subject> getAll(){
         return subjectRepository.findAll();
     }
 
-    //GET SUBJECTS BY ID
-    public Subject getSubjectById(UUID subjectID){
+    //GET Subject BY ID
+    public Subject getById(UUID subjectID){
         return subjectRepository.findById(subjectID).orElseThrow(() -> new IllegalStateException("subject does not exist"));
-
     }
 
-    //ADD NEW SUBJECT
-    public void addNewSubject(Subject subject) {
+    //ADD NEW Subject
+    public void createNew(Subject subject) {
         Optional<Subject> subjectOptional = subjectRepository.findSubjectByName(subject.getName());
 
         if(subjectOptional.isPresent()){
@@ -43,7 +42,7 @@ public class SubjectService {
     }
 
     //DELETE Subject BY ID
-    public void deleteSubject(UUID id) {
+    public void deleteById(UUID id) {
         subjectRepository.findById(id);
         boolean exists = subjectRepository.existsById(id);
 
@@ -56,7 +55,7 @@ public class SubjectService {
 
     //UPDATE Subject BY ID
     @Transactional
-    public void updateSubject(UUID subjectID, String name) {
+    public void updateById(UUID subjectID, String name) {
         Subject subject = subjectRepository.findById(subjectID).orElseThrow(() -> new IllegalStateException("Subject does not exist"));
 
         if(name != null && name.length()>0){
