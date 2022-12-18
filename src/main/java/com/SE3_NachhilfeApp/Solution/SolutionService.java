@@ -12,6 +12,8 @@ public class SolutionService {
 
     private final SolutionRepository solutionRepository;
 
+    private final String doesNotExistMsg = "Solution does not exist";
+
     @Autowired
     public SolutionService(SolutionRepository solutionRepository) {
         this.solutionRepository = solutionRepository;
@@ -24,7 +26,7 @@ public class SolutionService {
 
     //GET Solution BY ID
     public Solution getById(UUID solutionID){
-        return solutionRepository.findById(solutionID).orElseThrow(() -> new IllegalStateException("solution does not exist"));
+        return solutionRepository.findById(solutionID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
     }
 
     //ADD NEW Solution
@@ -33,21 +35,27 @@ public class SolutionService {
     }
 
     //DELETE Solution BY ID
+    @Transactional
     public void deleteById(UUID id) {
-        solutionRepository.findById(id);
-        boolean exists = solutionRepository.existsById(id);
+        Solution solution = solutionRepository.findById(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
-        if(!exists){
-            throw new IllegalStateException("solution does not exist");
+        solution.setDeleted(true);
+    }
+
+    //DELETE Solution BY SUBMISSION
+    @Transactional
+    public void deleteBySubmissionId(UUID submissionId) {
+        List<Solution> solutions = solutionRepository.findSolutionBySubmission(submissionId).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
+
+        for(Solution s : solutions){
+            s.setDeleted(true);
         }
-
-        solutionRepository.deleteById(id);
     }
 
     //UPDATE Solution BY ID
     @Transactional
     public void updateById(UUID id, String solutionText) {
-        Solution solution = solutionRepository.findById(id).orElseThrow(() -> new IllegalStateException("solution does not exist"));
+        Solution solution = solutionRepository.findById(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         if(solutionText != null && solutionText.length() > 0){
             solution.setSolutionText(solutionText);

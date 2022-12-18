@@ -14,14 +14,10 @@ public class Contract {
     private UUID toutorID;
     private UUID schoolerID;
     private UUID subjectID;
+    private boolean deleted;
 
     //Ctor
     public Contract() {}
-    public Contract(UUID toutorID, UUID schoolerID, UUID subjectID) {
-        this.toutorID = toutorID;
-        this.schoolerID = schoolerID;
-        this.subjectID = subjectID;
-    }
 
     //toString
     @Override
@@ -58,5 +54,11 @@ public class Contract {
     }
     public void setSubjectID(UUID subjectID) {
         this.subjectID = subjectID;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

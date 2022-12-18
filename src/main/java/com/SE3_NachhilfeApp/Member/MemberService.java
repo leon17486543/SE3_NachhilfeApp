@@ -1,5 +1,7 @@
 package com.SE3_NachhilfeApp.Member;
 
+import com.SE3_NachhilfeApp.Contract.ContractService;
+import com.SE3_NachhilfeApp.Offer.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +14,18 @@ import java.util.UUID;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final ContractService contractService;
+    private final OfferService offerService;
+
+    private final String doesNotExistMsg = "User does not exist";
+    private static final String doesAlreadyExistMsg = "User does already exist";
+    private static final String doesHaveContractsMsg = "User still has running contracts and can not be deleted";
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, ContractService contractService, OfferService offerService) {
         this.memberRepository = memberRepository;
+        this.contractService = contractService;
+        this.offerService = offerService;
     }
 
     //GET ALL
@@ -25,48 +35,46 @@ public class MemberService {
 
     //GET Member BY ID
     public Member getById(UUID id){
-        return memberRepository.findById(id).orElseThrow(() -> new IllegalStateException("member does not exist"));
+        return memberRepository.findById(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
     }
 
     //ADD NEW Member
     public void createNew(Member member) {
-        Optional<Member> userOptional = memberRepository.findMemberByName(member.getName());
+        Optional<Member> userOptional = memberRepository.findById(member.getId());
 
         if(userOptional.isPresent()){
-            throw new IllegalStateException("user already exists");
+            throw new IllegalStateException(doesAlreadyExistMsg);
         }
 
         memberRepository.save(member);
     }
 
     //DELETE Member BY ID
+    @Transactional
     public void deleteById(UUID id) {
-        memberRepository.findById(id);
-        boolean exists = memberRepository.existsById(id);
+        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
-        if(!exists){
-            throw new IllegalStateException("user does not exist");
+        if(contractService.getByTutor(id).size() > 0 || contractService.getBySchooler(id).size() > 0){
+            throw new IllegalStateException(doesHaveContractsMsg);
         }
 
-        memberRepository.deleteById(id);
+        member.setDeleted(true);
+
+        offerService.deleteByMember(id);
     }
 
     //UPDATE Member BY ID
     @Transactional
     public void updateById(UUID userId, String name, boolean needsHelp, boolean offersHelp) {
-        Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalStateException("user does not exist"));
+        Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         if(name != null && name.length() > 0){
             member.setName(name);
         }
 
-        if(needsHelp || !needsHelp){
-            member.setNeedsHelp(needsHelp);
-        }
+        member.setNeedsHelp(needsHelp);
 
-        if(offersHelp || !offersHelp){
-            member.setOffersHelp(offersHelp);
-        }
+        member.setOffersHelp(offersHelp);
     }
 }

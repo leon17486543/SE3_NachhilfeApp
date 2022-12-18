@@ -12,12 +12,14 @@ public class Offer {
     private UUID id = UUID.randomUUID();
     private UUID subjectID;
     private UUID memberID;
+    private boolean deleted;
 
     //Ctor
     public Offer() {}
-    public Offer(UUID subjectID, UUID memberID) {
+    public Offer(UUID subjectID, UUID memberID, boolean deleted) {
         this.subjectID = subjectID;
         this.memberID = memberID;
+        this.deleted = false;
     }
 
     //toString
@@ -48,5 +50,11 @@ public class Offer {
     }
     public void setMemberID(UUID memberID) {
         this.memberID = memberID;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

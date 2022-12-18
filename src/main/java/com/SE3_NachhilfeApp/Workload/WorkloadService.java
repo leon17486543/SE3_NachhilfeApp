@@ -1,6 +1,7 @@
 package com.SE3_NachhilfeApp.Workload;
 
 
+import com.SE3_NachhilfeApp.Submission.SubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +14,14 @@ import java.util.UUID;
 public class WorkloadService {
 
     private final WorkloadRepository workloadRepository;
+    private final SubmissionService submissionService;
+
+    private final String doesNotExistMsg = "Workload does not exist";
 
     @Autowired
-    public WorkloadService(WorkloadRepository workloadRepository) {
+    public WorkloadService(WorkloadRepository workloadRepository, SubmissionService submissionService) {
         this.workloadRepository = workloadRepository;
+        this.submissionService = submissionService;
     }
 
     //GET ALL
@@ -26,7 +31,7 @@ public class WorkloadService {
 
     //GET Workload BY ID
     public Workload getById(UUID workloadID){
-        return workloadRepository.findById(workloadID).orElseThrow(() -> new IllegalStateException("Workload does not exist"));
+        return workloadRepository.findById(workloadID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
     }
 
     //ADD NEW Workload
@@ -35,25 +40,22 @@ public class WorkloadService {
     }
 
     //DELETE Workload BY ID
+    @Transactional
     public void deleteById(UUID workloadID) {
-        workloadRepository.findById(workloadID);
-        boolean exists = workloadRepository.existsById(workloadID);
+        Workload workload = getById(workloadID);
 
-        if(!exists){
-            throw new IllegalStateException("Workload does not exist");
-        }
+        workload.setDeleted(true);
 
-        workloadRepository.deleteById(workloadID);
+        submissionService.deleteById(workload.getSubmissionID());
     }
 
     //UPDATE Workload BY ID
     @Transactional
     public void updateById(UUID workloadID, LocalDate dueDate) {
-        Workload workload = workloadRepository.findById(workloadID).orElseThrow(() -> new IllegalStateException("Workload does not exist"));
+        Workload workload = getById(workloadID);
 
         if(dueDate != null && dueDate.isAfter(LocalDate.now())){
             workload.setDueDate(dueDate);
         }
-
     }
 }

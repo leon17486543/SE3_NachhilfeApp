@@ -1,5 +1,6 @@
 package com.SE3_NachhilfeApp.Assignment;
 
+import com.SE3_NachhilfeApp.Task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +13,16 @@ import java.util.List;
 public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
+    private final TaskService taskService;
+
+    //Error Messages
+    private final String doesNotExistMsg = "Assignment does not exist";
+    private final String doesNotExistMsg_ByOwner = "Owner does not have Assignments";
 
     @Autowired
-    public AssignmentService(AssignmentRepository assignmentRepository) {
+    public AssignmentService(AssignmentRepository assignmentRepository, TaskService taskService) {
         this.assignmentRepository = assignmentRepository;
+        this.taskService = taskService;
     }
 
     //GET ALL
@@ -25,12 +32,12 @@ public class AssignmentService {
 
     //GET Assignment BY ID
     public Assignment getById(UUID id){
-        return assignmentRepository.findById(id).orElseThrow(() -> new IllegalStateException("assignment does not exist"));
+        return assignmentRepository.findById(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
     }
 
     //GET Assignment BY OWNER
     public List<Assignment> getByOwner(UUID id){
-        return assignmentRepository.findAssignmentByOwner(id).orElseThrow(() -> new IllegalStateException("owner does not have assignments"));
+        return assignmentRepository.findAssignmentByOwner(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg_ByOwner));
     }
 
     //ADD NEW Assignment
@@ -39,21 +46,18 @@ public class AssignmentService {
     }
 
     //DELETE Assignment BY ID
+    @Transactional
     public void deleteById(UUID id) {
-        assignmentRepository.findById(id);
-        boolean exists = assignmentRepository.existsById(id);
+        Assignment assignment = assignmentRepository.findById(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
+        assignment.setDeleted(true);
 
-        if(!exists){
-            throw new IllegalStateException("assignment does not exist");
-        }
-
-        assignmentRepository.deleteById(id);
+        taskService.deleteByAssignmentId(id);
     }
 
     //UPDATE Assignment BY ID
     @Transactional
     public void updateById(UUID assignmentId, String name, String description, UUID subjectID) {
-        Assignment assignment = assignmentRepository.findById(assignmentId).orElseThrow(() -> new IllegalStateException("assignment does not exist"));
+        Assignment assignment = assignmentRepository.findById(assignmentId).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         if(name != null && name.length() > 0 && !Objects.equals(assignment.getName(), name)){
             assignment.setName(name);

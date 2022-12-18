@@ -13,6 +13,8 @@ public class SubjectService {
 
     private final SubjectRepository subjectRepository;
 
+    private final String doesNotExistMsg = "Subject does not exist";
+
     @Autowired
     public SubjectService(SubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
@@ -25,7 +27,7 @@ public class SubjectService {
 
     //GET Subject BY ID
     public Subject getById(UUID subjectID){
-        return subjectRepository.findById(subjectID).orElseThrow(() -> new IllegalStateException("subject does not exist"));
+        return subjectRepository.findById(subjectID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
     }
 
     //ADD NEW Subject
@@ -42,21 +44,17 @@ public class SubjectService {
     }
 
     //DELETE Subject BY ID
+    @Transactional
     public void deleteById(UUID id) {
-        subjectRepository.findById(id);
-        boolean exists = subjectRepository.existsById(id);
+        Subject subject = subjectRepository.findById(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
-        if(!exists){
-            throw new IllegalStateException("subject does not exist");
-        }
-
-        subjectRepository.deleteById(id);
+        subject.setDeleted(true);
     }
 
     //UPDATE Subject BY ID
     @Transactional
     public void updateById(UUID subjectID, String name) {
-        Subject subject = subjectRepository.findById(subjectID).orElseThrow(() -> new IllegalStateException("Subject does not exist"));
+        Subject subject = subjectRepository.findById(subjectID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         if(name != null && name.length()>0){
             subject.setName(name);

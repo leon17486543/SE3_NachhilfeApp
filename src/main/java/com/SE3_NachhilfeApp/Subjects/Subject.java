@@ -10,14 +10,10 @@ public class Subject {
     @Id
     private UUID id = UUID.randomUUID();
     private String name;
+    private boolean deleted;
 
     //Ctor
-    public Subject() {
-
-    }
-    public Subject(String name) {
-        this.name = name;
-    }
+    public Subject() {}
 
     //toString
     @Override
@@ -40,5 +36,11 @@ public class Subject {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

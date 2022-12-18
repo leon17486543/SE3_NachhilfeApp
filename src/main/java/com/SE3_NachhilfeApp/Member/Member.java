@@ -11,14 +11,11 @@ public class Member {
     private String name;
     private boolean needsHelp;
     private boolean offersHelp;
+    private boolean deleted;
 
     //Ctor
     public Member() {}
-    public Member(String name, boolean needsHelp, boolean offersHelp) {
-        this.name = name;
-        this.needsHelp = needsHelp;
-        this.offersHelp = offersHelp;
-    }
+
 
     //toString
     @Override
@@ -55,5 +52,11 @@ public class Member {
     }
     public void setOffersHelp(boolean offersHelp) {
         this.offersHelp = offersHelp;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

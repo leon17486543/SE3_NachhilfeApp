@@ -1,6 +1,7 @@
 package com.SE3_NachhilfeApp.Submission;
 
 
+import com.SE3_NachhilfeApp.Solution.SolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +14,14 @@ import java.util.UUID;
 public class SubmissionService {
 
     private final SubmissionRepository submissionRepository;
+    private final SolutionService solutionService;
+
+    private final String doesNotExistMsg = "Submission does not exist";
 
     @Autowired
-    public SubmissionService(SubmissionRepository submissionRepository) {
+    public SubmissionService(SubmissionRepository submissionRepository, SolutionService solutionService) {
         this.submissionRepository = submissionRepository;
+        this.solutionService = solutionService;
     }
 
     //GET ALL
@@ -26,7 +31,7 @@ public class SubmissionService {
 
     //GET Submission BY ID
     public Submission getById(UUID submissionID){
-        return submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException("Submission does not exist"));
+        return submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
     }
 
     //ADD NEW Submission
@@ -35,25 +40,22 @@ public class SubmissionService {
     }
 
     //DELETE Submission BY ID
+    @Transactional
     public void deleteById(UUID submissionID) {
-        submissionRepository.findById(submissionID);
-        boolean exists = submissionRepository.existsById(submissionID);
+        Submission submission = submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
-        if(!exists){
-            throw new IllegalStateException("Submission does not exist");
-        }
+        submission.setDeleted(true);
 
-        submissionRepository.deleteById(submissionID);
+        solutionService.deleteBySubmissionId(submissionID);
     }
 
     //UPDATE Submission BY ID
     @Transactional
     public void updateById(UUID submissionID, LocalDate date) {
-        Submission submission = submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException("submission does not exist"));
+        Submission submission = submissionRepository.findById(submissionID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         if(date != null){
             submission.setSubmissionDate(date);
         }
-
     }
 }

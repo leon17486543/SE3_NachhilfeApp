@@ -13,11 +13,13 @@ public class Submission {
     @Id
     private UUID id = UUID.randomUUID();
     private LocalDate submissionDate;
+    private boolean deleted;
 
     //Ctor
     public Submission() {}
-    public Submission(LocalDate submissionDate) {
+    public Submission(LocalDate submissionDate, boolean deleted) {
         this.submissionDate = submissionDate;
+        this.deleted = false;
     }
 
     //toString
@@ -41,5 +43,11 @@ public class Submission {
     }
     public void setSubmissionDate(LocalDate submissionDate) {
         this.submissionDate = submissionDate;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

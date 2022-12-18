@@ -15,13 +15,15 @@ public class Solution {
     private UUID taskID;
     private UUID submisionID;
     private String solutionText;
+    private boolean deleted;
 
     //Ctor
     public Solution() {}
-    public Solution(UUID taskID, UUID submisionID, String solutionText) {
+    public Solution(UUID taskID, UUID submisionID, String solutionText, boolean deleted) {
         this.taskID = taskID;
         this.submisionID = submisionID;
         this.solutionText = solutionText;
+        this.deleted = false;
     }
 
     //toString
@@ -58,5 +60,11 @@ public class Solution {
     }
     public void setSubmisionID(UUID submisionID) {
         this.submisionID = submisionID;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

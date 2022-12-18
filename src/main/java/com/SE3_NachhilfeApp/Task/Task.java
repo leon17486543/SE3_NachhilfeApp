@@ -13,13 +13,15 @@ public class Task {
     private UUID assignmentID;
     private String name;
     private String correctSolution;
+    private boolean deleted;
 
     //Ctor
     public Task() {
     }
-    public Task(UUID assignmentID, String name) {
+    public Task(UUID assignmentID, String name, boolean deleted) {
         this.name = name;
         this.assignmentID = assignmentID;
+        this.deleted = false;
     }
 
     //toString
@@ -56,5 +58,11 @@ public class Task {
     }
     public void setId(UUID id) {
         this.id = id;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

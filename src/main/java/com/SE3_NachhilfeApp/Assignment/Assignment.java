@@ -16,15 +16,10 @@ public class Assignment {
     private UUID subject;
     private String name;
     private String description;
+    private boolean deleted;
 
     //Ctor
     public Assignment() {}
-    public Assignment(UUID owner, UUID subject, String name, String description) {
-        this.owner = owner;
-        this.subject = subject;
-        this.name = name;
-        this.description = description;
-    }
 
     //toString
     @Override
@@ -63,12 +58,16 @@ public class Assignment {
     public void setDescription(String description) {
         this.description = description;
     }
-
     public UUID getId() {
         return id;
     }
-
     public void setId(UUID id) {
         this.id = id;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

@@ -1,6 +1,7 @@
 package com.SE3_NachhilfeApp.Offer;
 
 
+import com.SE3_NachhilfeApp.Contract.Contract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,8 @@ import java.util.UUID;
 public class OfferService {
 
     private final OfferRepository offerRepository;
+    private final String doesNotExistMsg = "Offer does not exist";
+    private final String hasNoOffersMsg = "User has no offers";
 
     @Autowired
     public OfferService(OfferRepository offerRepository) {
@@ -26,8 +29,12 @@ public class OfferService {
 
     //GET Offer BY ID
     public Offer getById(UUID offerID){
-        return offerRepository.findById(offerID).orElseThrow(() -> new IllegalStateException("Offer does not exist"));
+        return offerRepository.findById(offerID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
+    }
 
+    //GET Offer BY MEMBER
+    public List<Offer> getByMember(UUID memberID){
+        return offerRepository.findOfferByMember(memberID).orElseThrow(() -> new IllegalStateException(hasNoOffersMsg));
     }
 
     //ADD NEW Offer
@@ -36,21 +43,26 @@ public class OfferService {
     }
 
     //DELETE Offer BY ID
+    @Transactional
     public void deleteById(UUID offerID) {
-        offerRepository.findById(offerID);
-        boolean exists = offerRepository.existsById(offerID);
+        Offer offer = offerRepository.findById(offerID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
+        offer.setDeleted(true);
+    }
 
-        if(!exists){
-            throw new IllegalStateException("Offer does not exist");
+    //DELETE Offer BY Member
+    @Transactional
+    public void deleteByMember(UUID memberID) {
+        List<Offer> offers = getByMember(memberID);
+
+        for(Offer o : offers){
+            o.setDeleted(true);
         }
-
-        offerRepository.deleteById(offerID);
     }
 
     //UPDATE Offer BY ID
     @Transactional
     public void updateById(UUID offerID, UUID subjectID) {
-        Offer offer = offerRepository.findById(offerID).orElseThrow(() -> new IllegalStateException("Offer does not exist"));
+        Offer offer = offerRepository.findById(offerID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         if(subjectID != null){
             offer.setSubjectID(subjectID);

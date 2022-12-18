@@ -17,15 +17,17 @@ public class Workload {
     private UUID toutorID;
     private UUID submissionID;
     private LocalDate dueDate;
+    private boolean deleted;
 
     //Ctor
     public Workload() {}
-    public Workload(UUID assignmentID, UUID schoolerID, UUID toutorID, UUID submissionID, LocalDate dueDate) {
+    public Workload(UUID assignmentID, UUID schoolerID, UUID toutorID, UUID submissionID, LocalDate dueDate, boolean deleted) {
         this.assignmentID = assignmentID;
         this.schoolerID = schoolerID;
         this.submissionID = submissionID;
         this.toutorID = toutorID;
         this.dueDate = dueDate;
+        this.deleted = false;
     }
 
     //toString
@@ -76,5 +78,11 @@ public class Workload {
     }
     public void setToutorID(UUID toutorID) {
         this.toutorID = toutorID;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
