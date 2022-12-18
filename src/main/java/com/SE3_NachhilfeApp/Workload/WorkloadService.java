@@ -34,7 +34,7 @@ public class WorkloadService {
 
     }
 
-    //ADD NEW Tasks
+    //ADD NEW Workload
     public void addNewWorkload(Workload workload) {
         workloadRepository.save(workload);
     }

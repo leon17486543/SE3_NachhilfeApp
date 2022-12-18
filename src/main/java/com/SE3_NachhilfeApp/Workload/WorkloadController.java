@@ -23,7 +23,7 @@ public class WorkloadController {
 
     //GET ALL
     @GetMapping()
-    public List<Workload> getTasks(){
+    public List<Workload> getWorkload(){
         return workloadService.getWorkload();
     }
 
@@ -35,7 +35,7 @@ public class WorkloadController {
 
     //ADD NEW
     @PostMapping
-    public void createNewTask(@RequestBody Workload workload){
+    public void createNewWorkload(@RequestBody Workload workload){
         workloadService.addNewWorkload(workload);
     }
 
@@ -47,7 +47,7 @@ public class WorkloadController {
 
     //UPDATE BY ID
     @PutMapping(path = "update/{workloadId}")
-    public void updateStudent(@PathVariable("workloadId") UUID workloadId, @RequestBody LocalDate dueDate){
+    public void updateWorkload(@PathVariable("workloadId") UUID workloadId, @RequestBody LocalDate dueDate){
         workloadService.updateWorkload(workloadId, dueDate);
     }
 }
