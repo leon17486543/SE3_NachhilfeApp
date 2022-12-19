@@ -14,6 +14,11 @@ public class Subject {
 
     //Ctor
     public Subject() {}
+    public Subject(UUID id, String name, boolean deleted) {
+        this.id = id;
+        this.name = name;
+        this.deleted = deleted;
+    }
 
     //toString
     @Override
@@ -21,6 +26,7 @@ public class Subject {
         return "Subjects{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 

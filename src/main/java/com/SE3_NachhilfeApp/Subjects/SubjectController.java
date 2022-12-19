@@ -31,7 +31,7 @@ public class SubjectController {
     }
 
     //ADD NEW
-    @PostMapping
+    @PostMapping(path = "add")
     public void createNew(@RequestBody Subject subject){
         subjectService.createNew(subject);
     }
