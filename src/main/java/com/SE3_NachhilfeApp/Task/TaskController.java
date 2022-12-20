@@ -55,9 +55,9 @@ public class TaskController {
         taskService.deleteByAssignmentId(assignmentId);
     }
 
-    //PUT
+    //UPDATE Task BY ID
     @PutMapping(path = "update/{taskId}")
-    public void updateByID(@PathVariable("taskId") UUID taskid, @RequestBody String userSolution){
-        taskService.updateByID(taskid, userSolution);
+    public void updateByID(@PathVariable("taskId") UUID taskid, @RequestParam(required = false) String name, @RequestParam(required = false) String correctSolution){
+        taskService.updateByID(taskid, name, correctSolution);
     }
 }

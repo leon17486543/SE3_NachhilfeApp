@@ -60,11 +60,15 @@ public class TaskService {
 
     //UPDATE Task BY ID
     @Transactional
-    public void updateByID(UUID taskId, String userSolution) {
+    public void updateByID(UUID taskId, String name, String correctSolution) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
-        if(userSolution != null && userSolution.length() > 0 && !Objects.equals(task.getCorrectSolution(), userSolution)){
-            task.setCorrectSolution(userSolution);
+        if(name != null && name.length()>0){
+            task.setName(name);
+        }
+
+        if(correctSolution != null && correctSolution.length()>0){
+            task.setCorrectSolution(correctSolution);
         }
 
     }

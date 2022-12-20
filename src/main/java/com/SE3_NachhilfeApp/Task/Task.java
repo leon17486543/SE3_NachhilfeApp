@@ -18,9 +18,11 @@ public class Task {
     //Ctor
     public Task() {
     }
-    public Task(UUID assignmentID, String name, boolean deleted) {
+    public Task(UUID id, UUID assignmentID, String name, String correctSolution, boolean deleted) {
+        this.id = id;
         this.name = name;
         this.assignmentID = assignmentID;
+        this.correctSolution = correctSolution;
         this.deleted = false;
     }
 
@@ -29,8 +31,10 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", assignmentID='" + assignmentID + '\'' +
+                ", name='" + name + '\'' +
+                ", correctSolution='" + correctSolution + '\'' +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 

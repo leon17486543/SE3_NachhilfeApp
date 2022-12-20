@@ -1,0 +1,51 @@
+:stylesheet: ../boot-darkly.css
+
+= Task
+
+== Fields and Data-Types
+
+include::{snippets}/test-task/test-get-all/response-fields.adoc[]
+
+== Get all
+Example Request
+include::{snippets}/test-task/test-get-all/http-request.adoc[]
+Example Response
+include::{snippets}/test-task/test-get-all/http-response.adoc[]
+
+== Get by id
+Example Request
+include::{snippets}/test-task/test-get-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-task/test-get-by-id/http-response.adoc[]
+
+== Get by assignemntId
+Example Request
+include::{snippets}/test-task/test-get-by-assignment/http-request.adoc[]
+Example Response
+include::{snippets}/test-task/test-get-by-assignment/http-response.adoc[]
+
+== Add new
+Example Request
+include::{snippets}/test-task/test-add-new/http-request.adoc[]
+Example Response
+include::{snippets}/test-task/test-add-new/http-response.adoc[]
+
+== Delete by id
+Example Request
+include::{snippets}/test-task/test-delete-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-task/test-delete-by-id/http-response.adoc[]
+
+== Delete by assignmentId
+Example Request
+include::{snippets}/test-task/test-delete-by-assignment-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-task/test-delete-by-assignment-id/http-response.adoc[]
+
+
+== Update by id
+Example Request
+include::{snippets}/test-task/test-update-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-task/test-update-by-id/http-response.adoc[]
+

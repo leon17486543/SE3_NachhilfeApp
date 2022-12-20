@@ -38,7 +38,7 @@ public class Assignment {
                 ", subject='" + subject + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", description='" + deleted + '\'' +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 
