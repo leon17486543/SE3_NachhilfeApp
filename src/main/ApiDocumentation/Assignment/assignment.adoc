@@ -1,0 +1,51 @@
+:stylesheet: ../boot-darkly.css
+
+= Assignment
+
+== Fields and Data-Types
+
+include::{snippets}/test-assignment/test-get-all/response-fields.adoc[]
+
+== Get all
+Example Request
+include::{snippets}/test-assignment/test-get-all/http-request.adoc[]
+Example Response
+include::{snippets}/test-assignment/test-get-all/http-response.adoc[]
+
+== Get by id
+Example Request
+include::{snippets}/test-assignment/test-get-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-assignment/test-get-by-id/http-response.adoc[]
+
+== Get by owner
+Example Request
+include::{snippets}/test-assignment/test-get-by-owner/http-request.adoc[]
+Example Response
+include::{snippets}/test-assignment/test-get-by-owner/http-response.adoc[]
+
+== Add new
+Example Request
+include::{snippets}/test-assignment/test-add-new/http-request.adoc[]
+Example Response
+include::{snippets}/test-assignment/test-add-new/http-response.adoc[]
+
+== Delete by id
+Example Request
+include::{snippets}/test-assignment/test-delete-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-assignment/test-delete-by-id/http-response.adoc[]
+
+== Delete by owner
+Example Request
+include::{snippets}/test-assignment/test-delete-by-owner/http-request.adoc[]
+Example Response
+include::{snippets}/test-assignment/test-delete-by-owner/http-response.adoc[]
+
+
+== Update by id
+Example Request
+include::{snippets}/test-assignment/test-update-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-assignment/test-update-by-id/http-response.adoc[]
+

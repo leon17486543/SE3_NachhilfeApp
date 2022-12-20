@@ -54,6 +54,17 @@ public class AssignmentService {
         taskService.deleteByAssignmentId(id);
     }
 
+    //DELETE Assignment BY Owner
+    @Transactional
+    public void deleteByOwner(UUID id) {
+        List<Assignment> assignments = assignmentRepository.findAssignmentByOwner(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
+
+        for(Assignment a: assignments){
+            a.setDeleted(true);
+            taskService.deleteByAssignmentId(a.getId());
+        }
+    }
+
     //UPDATE Assignment BY ID
     @Transactional
     public void updateById(UUID assignmentId, String name, String description, UUID subjectID) {

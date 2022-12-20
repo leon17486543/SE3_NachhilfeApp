@@ -42,9 +42,15 @@ public class AssignmentController {
     }
 
     //DELETE BY ID
-    @DeleteMapping(path = "delete/{assignmentId}")
+    @DeleteMapping(path = "deleteById/{assignmentId}")
     public void deleteById(@PathVariable("assignmentId") UUID assignmentId){
         assignmentService.deleteById(assignmentId);
+    }
+
+    //DELETE BY OWNER
+    @DeleteMapping(path = "deleteByOwner/{ownerId}")
+    public void deleteByOwner(@PathVariable("ownerId") UUID ownerId){
+        assignmentService.deleteByOwner(ownerId);
     }
 
     //UPDATE BY ID

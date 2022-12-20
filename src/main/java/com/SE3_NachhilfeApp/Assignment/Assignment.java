@@ -20,6 +20,14 @@ public class Assignment {
 
     //Ctor
     public Assignment() {}
+    public Assignment(UUID id, UUID owner, UUID subject, String name, String description, boolean deleted) {
+        this.id = id;
+        this.owner = owner;
+        this.subject = subject;
+        this.name = name;
+        this.description = description;
+        this.deleted = deleted;
+    }
 
     //toString
     @Override
@@ -30,6 +38,7 @@ public class Assignment {
                 ", subject='" + subject + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", description='" + deleted + '\'' +
                 '}';
     }
 
