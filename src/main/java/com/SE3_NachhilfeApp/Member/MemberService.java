@@ -41,12 +41,6 @@ public class MemberService {
 
     //ADD NEW Member
     public void createNew(Member member) {
-        Optional<Member> userOptional = memberRepository.findById(member.getId());
-
-        if(userOptional.isPresent()){
-            throw new IllegalStateException(doesAlreadyExistMsg);
-        }
-
         memberRepository.save(member);
     }
 
@@ -66,15 +60,11 @@ public class MemberService {
 
     //UPDATE Member BY ID
     @Transactional
-    public void updateById(UUID userId, String name, boolean needsHelp, boolean offersHelp) {
+    public void updateById(UUID userId, String name) {
         Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         if(name != null && name.length() > 0){
             member.setName(name);
         }
-
-        member.setNeedsHelp(needsHelp);
-
-        member.setOffersHelp(offersHelp);
     }
 }

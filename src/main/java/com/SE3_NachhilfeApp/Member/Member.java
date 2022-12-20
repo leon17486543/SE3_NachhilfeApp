@@ -9,13 +9,16 @@ public class Member {
     @Id
     private UUID id = UUID.randomUUID();
     private String name;
-    private boolean needsHelp;
-    private boolean offersHelp;
     private boolean deleted;
 
     //Ctor
     public Member() {}
 
+    public Member(UUID id, String name, boolean deleted) {
+        this.id = id;
+        this.name = name;
+        this.deleted = deleted;
+    }
 
     //toString
     @Override
@@ -23,8 +26,7 @@ public class Member {
         return "Member{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", needsHelp='" + needsHelp + '\'' +
-                ", offersHelp=" + offersHelp +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 
@@ -40,18 +42,6 @@ public class Member {
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public boolean isNeedsHelp() {
-        return needsHelp;
-    }
-    public void setNeedsHelp(boolean needsHelp) {
-        this.needsHelp = needsHelp;
-    }
-    public boolean isOffersHelp() {
-        return offersHelp;
-    }
-    public void setOffersHelp(boolean offersHelp) {
-        this.offersHelp = offersHelp;
     }
     public boolean isDeleted() {
         return deleted;

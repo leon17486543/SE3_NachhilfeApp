@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Subject</title>
+<title>Member</title>
 <style>
 @import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.0/css/font-awesome.css);
 /* normalize.css v2.1.1 | MIT License | git.io/normalize */
@@ -634,7 +634,7 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 </head>
 <body class="article">
 <div id="header">
-<h1>Subject</h1>
+<h1>Member</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -657,17 +657,17 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of Subject; UUID as String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of Member; UUID as String; FireBase ID must be set on creation</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of Subject</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of Member</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>deleted</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Is the Subject deleted</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is the Member deleted</p></td>
 </tr>
 </tbody>
 </table>
@@ -681,7 +681,7 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/subjects HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/user HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -695,9 +695,9 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 78
+Content-Length: 77
 
-[{&quot;id&quot;:&quot;fdc502b5-fb9e-4adc-95ca-5391b8b4995d&quot;,&quot;name&quot;:&quot;Mathe&quot;,&quot;deleted&quot;:false}]</code></pre>
+[{&quot;id&quot;:&quot;f60e3209-7192-40c3-990c-0242c963bebc&quot;,&quot;name&quot;:&quot;Otto&quot;,&quot;deleted&quot;:false}]</code></pre>
 </div>
 </div>
 </div>
@@ -710,7 +710,7 @@ Content-Length: 78
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/subjects/byId/fdc502b5-fb9e-4adc-95ca-5391b8b4995d HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/user/byId/f60e3209-7192-40c3-990c-0242c963bebc HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -724,9 +724,9 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 76
+Content-Length: 75
 
-{&quot;id&quot;:&quot;fdc502b5-fb9e-4adc-95ca-5391b8b4995d&quot;,&quot;name&quot;:&quot;Mathe&quot;,&quot;deleted&quot;:false}</code></pre>
+{&quot;id&quot;:&quot;f60e3209-7192-40c3-990c-0242c963bebc&quot;,&quot;name&quot;:&quot;Otto&quot;,&quot;deleted&quot;:false}</code></pre>
 </div>
 </div>
 </div>
@@ -739,12 +739,12 @@ Content-Length: 76
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/subjects/add HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/user/add HTTP/1.1
 Content-Type: application/json
-Content-Length: 82
+Content-Length: 78
 Host: localhost:8080
 
-{&quot;id&quot;: &quot;bbf975fe-7f80-11ed-a1eb-0242ac120002&quot;,&quot;name&quot;: &quot;Englisch&quot;,&quot;deleted&quot;: false}</code></pre>
+{&quot;id&quot;: &quot;fc0d2d95-3854-419d-9d62-ece3de02a6e9&quot;,&quot;name&quot;: &quot;Hans&quot;,&quot;deleted&quot;: false}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -768,7 +768,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">DELETE /api/v1/subjects/delete/fdc502b5-fb9e-4adc-95ca-5391b8b4995d HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">DELETE /api/v1/user/delete/f60e3209-7192-40c3-990c-0242c963bebc HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -793,7 +793,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">PUT /api/v1/subjects/update/fdc502b5-fb9e-4adc-95ca-5391b8b4995d?name=Deutsch HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">PUT /api/v1/user/update/f60e3209-7192-40c3-990c-0242c963bebc?name=Peter HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080</code></pre>
 </div>
@@ -814,7 +814,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-12-20 12:08:26 +0100
+Last updated 2022-12-20 13:19:00 +0100
 </div>
 </div>
 </body>

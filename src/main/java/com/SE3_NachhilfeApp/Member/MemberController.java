@@ -45,9 +45,7 @@ public class MemberController {
     //UPDATE BY ID
     @PutMapping(path = "update/{userId}")
     public void updateById(@PathVariable("userId") UUID userId,
-                             @RequestParam(required = false) String name,
-                             @RequestParam(required = false) boolean needsHelp,
-                             @RequestParam(required = false) boolean offersHelp){
-        memberService.updateById(userId, name, needsHelp, offersHelp);
+                             @RequestParam(required = false) String name){
+        memberService.updateById(userId, name);
     }
 }

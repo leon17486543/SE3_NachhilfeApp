@@ -1,0 +1,38 @@
+:stylesheet: ../boot-darkly.css
+
+= Member
+
+== Fields and Data-Types
+
+include::{snippets}/test-member/test-get-all/response-fields.adoc[]
+
+== Get all
+Example Request
+include::{snippets}/test-member/test-get-all/http-request.adoc[]
+Example Response
+include::{snippets}/test-member/test-get-all/http-response.adoc[]
+
+== Get by id
+Example Request
+include::{snippets}/test-member/test-get-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-member/test-get-by-id/http-response.adoc[]
+
+== Add new
+Example Request
+include::{snippets}/test-member/test-add-new/http-request.adoc[]
+Example Response
+include::{snippets}/test-member/test-add-new/http-response.adoc[]
+
+== Delete by id
+Example Request
+include::{snippets}/test-member/test-delete-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-member/test-delete-by-id/http-response.adoc[]
+
+== Update by id
+Example Request
+include::{snippets}/test-member/test-update-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-member/test-update-by-id/http-response.adoc[]
+

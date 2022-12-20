@@ -1,6 +1,7 @@
 package com.SE3_NachhilfeApp;
 
-import com.SE3_NachhilfeApp.Subjects.Subject;
+import com.SE3_NachhilfeApp.Member.Member;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,22 +41,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(properties = {"spring.datasource.url=jdbc:h2:mem:testdb"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-public class Subjects_Test {
+public class TestMember {
+
+    private static final String address = "/api/v1/user";
+    private static final String asciiDocPath = "{class-name}/{method-name}/";
 
     private MockMvc mockMvc;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    //Expected Subject as of "createSubject.sql"
-    UUID id= UUID.fromString("fdc502b5-fb9e-4adc-95ca-5391b8b4995d");
-    String name= "Mathe";
+    //Expected Member as of "createMember.sql"
+    UUID id= UUID.fromString("f60e3209-7192-40c3-990c-0242c963bebc");
+    String name= "Otto";
     boolean deleted= false;
-    Subject subject = new Subject(id, name, deleted);
+    Member member = new Member(id, name, deleted);
 
-    FieldDescriptor subjectFieldDescriptor[] = new FieldDescriptor []{
-            fieldWithPath("id").optional().type(JsonFieldType.STRING).description("ID of Subject; UUID as String"),
-            fieldWithPath("name").optional().type(JsonFieldType.STRING).description("Name of Subject"),
-            fieldWithPath("deleted").optional().type(JsonFieldType.BOOLEAN).description("Is the Subject deleted")
+    FieldDescriptor[] fieldDescriptors = new FieldDescriptor []{
+            fieldWithPath("id").optional().type(JsonFieldType.STRING).description("ID of Member; UUID as String; FireBase ID must be set on creation"),
+            fieldWithPath("name").optional().type(JsonFieldType.STRING).description("Name of Member"),
+            fieldWithPath("deleted").optional().type(JsonFieldType.BOOLEAN).description("Is the Member deleted")
     };
 
     @BeforeEach
@@ -72,157 +76,140 @@ public class Subjects_Test {
     }
 
     @Test
-    void toString_Test(){
-        String expected = "Subjects{" +
+    void testToString(){
+        String expected = "Member{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", deleted='" + deleted + '\'' +
                 '}';
 
-        assertEquals(expected, subject.toString());
+        assertEquals(expected, member.toString());
     }
 
     @Test
-    void getAndSet_Test(){
+    void testGetAndSet(){
         UUID newId = UUID.fromString("0750b1bd-558e-4d74-ae6b-3efe5b594cb4");
         String newName = "Deutsch";
         boolean newDeleted = true;
 
-        subject.setId(newId);
-        subject.setName(newName);
-        subject.setDeleted(newDeleted);
+        member.setId(newId);
+        member.setName(newName);
+        member.setDeleted(newDeleted);
 
-        assertEquals(newId, subject.getId());
-        assertEquals(newName, subject.getName());
-        assertEquals(newDeleted, subject.isDeleted());
+        assertEquals(newId, member.getId());
+        assertEquals(newName, member.getName());
+        assertEquals(newDeleted, member.isDeleted());
     }
 
 
     @Test
-    @Sql("createSubject.sql")
-    void getAll_Test() throws Exception{
+    @Sql("createMember.sql")
+    void testGetAll() throws Exception{
         //Prepare Expected
-        List<Subject> expected = new ArrayList<>();
-        expected.add(subject);
+        List<Member> expected = new ArrayList<>();
+        expected.add(member);
 
         //Mock HTTP Request
-        MvcResult res = mockMvc.perform(get("/api/v1/subjects"))
+        MvcResult res = mockMvc.perform(get(address))
                 .andExpect(status().is2xxSuccessful())
-                .andDo(document("{method-name}/", relaxedResponseFields(subjectFieldDescriptor)))
+                .andDo(document(asciiDocPath, relaxedResponseFields(fieldDescriptors)))
                 .andReturn();
 
-        //Convert Json-Body to Subject List
+        //Convert Json-Body to Member List
         String jsonBody = res.getResponse().getContentAsString();
-        List<Subject> actual = objectMapper.readValue(jsonBody, new TypeReference<List<Subject>>(){});
+        List<Member> actual = objectMapper.readValue(jsonBody, new TypeReference<List<Member>>(){});
 
         //Assertion
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
-    @Sql("createSubject.sql")
-    void getById_Test() throws Exception{
+    @Sql("createMember.sql")
+    void testGetById() throws Exception{
         //Prepare Expected
-        Subject expected = subject;
+        Member expected = member;
 
         //Mock HTTP Request
-        MvcResult res = mockMvc.perform(get("/api/v1/subjects/byId/{subbjectId}", id))
+        MvcResult res = mockMvc.perform(get(address+"/byId/{memberId}", id))
                 .andExpect(status().is2xxSuccessful())
-                .andDo(document("{method-name}/", relaxedResponseFields(subjectFieldDescriptor)))
+                .andDo(document(asciiDocPath, relaxedResponseFields(fieldDescriptors)))
                 .andReturn();
 
-        //Convert Json-Body to Subject List
+        //Convert Json-Body to Member List
         String jsonBody = res.getResponse().getContentAsString();
-        Subject actual = objectMapper.readValue(jsonBody, Subject.class);
+        Member actual = objectMapper.readValue(jsonBody, Member.class);
 
         //Assertion
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
-    void addNew_Test() throws Exception{
-        //Subject values to add
-        UUID idToAdd = UUID.fromString("bbf975fe-7f80-11ed-a1eb-0242ac120002");
-        String nameToAdd = "Englisch";
+    void testAddNew() throws Exception{
+        //Member values to add
+        UUID idToAdd = UUID.fromString("fc0d2d95-3854-419d-9d62-ece3de02a6e9");
+        String nameToAdd = "Hans";
         boolean deletedToAdd = false;
 
-        mockMvc.perform(post("/api/v1/subjects/add")
+        mockMvc.perform(post(address+"/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{"+
                         "\"id\": \""+ idToAdd + "\","+
                         "\"name\": \""+ nameToAdd + "\","+
                         "\"deleted\": "+ deletedToAdd +
                         "}"))
-                .andDo(document("{method-name}/", relaxedRequestFields(subjectFieldDescriptor)))
+                .andDo(document(asciiDocPath, relaxedRequestFields(fieldDescriptors)))
                 .andExpect(status().is2xxSuccessful());
-
-        //Adding Subjects with the same name should fail
-        boolean failed = false;
-        try{
-            mockMvc.perform(post("/api/v1/subjects/add")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content("{"+
-                                    "\"id\": \""+ idToAdd + "\","+
-                                    "\"name\": \""+ nameToAdd + "\","+
-                                    "\"deleted\": "+ deletedToAdd +
-                                    "}"))
-                    .andExpect(status().is2xxSuccessful());
-        }catch (Exception e){
-            failed = true;
-        }
-
-        assertThat(failed).isTrue();
 
     }
 
     @Test
-    @Sql("createSubject.sql")
-    void deleteById_Test() throws Exception{
+    @Sql("createMember.sql")
+    void testDeleteById() throws Exception{
         //Prepare Expected
-        Subject expected = new Subject(id, name, true);
+        Member expected = new Member(id, name, true);
 
         //DELETE
         //Mock HTTP Request
-        mockMvc.perform(delete("/api/v1/subjects/delete/{id}",id))
+        mockMvc.perform(delete(address+"/delete/{memberId}",id))
                 .andExpect(status().is2xxSuccessful())
-                .andDo(document("{method-name}/"))
+                .andDo(document(asciiDocPath))
                 .andReturn();
 
         //GET to verify
         //Mock HTTP Request
-        MvcResult res = mockMvc.perform(get("/api/v1/subjects/byId/"+id))
+        MvcResult res = mockMvc.perform(get(address+"/byId/{memberId}", id))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
-        //Convert Json-Body to Subject List
+        //Convert Json-Body to Member List
         String jsonBody = res.getResponse().getContentAsString();
-        Subject actual = objectMapper.readValue(jsonBody, Subject.class);
+        Member actual = objectMapper.readValue(jsonBody, Member.class);
 
         //Assertion
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
-    @Sql("createSubject.sql")
-    void updateById_Test() throws Exception{
+    @Sql("createMember.sql")
+    void testUpdateById() throws Exception{
         //Prepare Expected
-        String newName = "Deutsch";
-        Subject expected = new Subject(id, newName, deleted);
+        String newName = "Peter";
+        Member expected = new Member(id, newName, deleted);
 
         //DELETE
         //Mock HTTP Request
-        mockMvc.perform(put("/api/v1/subjects/update/"+id+"?name="+newName))
+        mockMvc.perform(put(address+"/update/{id}?name={newName}",id, newName))
                 .andExpect(status().is2xxSuccessful())
-                .andDo(document("{method-name}/"))
+                .andDo(document(asciiDocPath))
                 .andReturn();
 
         //GET to verify
         //Mock HTTP Request
-        MvcResult res = mockMvc.perform(get("/api/v1/subjects/byId/"+id))
+        MvcResult res = mockMvc.perform(get(address+"/byId/{memberId}", id))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
-        //Convert Json-Body to Subject List
+        //Convert Json-Body to Member List
         String jsonBody = res.getResponse().getContentAsString();
-        Subject actual = objectMapper.readValue(jsonBody, Subject.class);
+        Member actual = objectMapper.readValue(jsonBody, Member.class);
 
         //Assertion
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
