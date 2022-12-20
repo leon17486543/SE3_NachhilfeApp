@@ -11,22 +11,30 @@ import java.util.UUID;
 public class Contract {
     @Id
     private UUID id = UUID.randomUUID();
-    private UUID toutorID;
+    private UUID tutorID;
     private UUID schoolerID;
     private UUID subjectID;
     private boolean deleted;
 
     //Ctor
     public Contract() {}
+    public Contract(UUID id, UUID tutorID, UUID schoolerID, UUID subjectID, boolean deleted) {
+        this.id = id;
+        this.tutorID = tutorID;
+        this.schoolerID = schoolerID;
+        this.subjectID = subjectID;
+        this.deleted = deleted;
+    }
 
     //toString
     @Override
     public String toString() {
         return "Contract{" +
                 "id=" + id +
-                ", toutorID='" + toutorID + '\'' +
+                ", tutorID='" + tutorID + '\'' +
                 ", schoolerID='" + schoolerID + '\'' +
                 ", subjectID='" + subjectID + '\'' +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 
@@ -37,11 +45,11 @@ public class Contract {
     public void setId(UUID id) {
         this.id = id;
     }
-    public UUID getToutorID() {
-        return toutorID;
+    public UUID getTutorID() {
+        return tutorID;
     }
-    public void setToutorID(UUID toutorID) {
-        this.toutorID = toutorID;
+    public void setTutorID(UUID toutorID) {
+        this.tutorID = toutorID;
     }
     public UUID getSchoolerID() {
         return schoolerID;

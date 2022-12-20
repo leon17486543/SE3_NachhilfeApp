@@ -155,7 +155,6 @@ public class TestSubjects {
                         "\"name\": \""+ nameToAdd + "\","+
                         "\"deleted\": "+ deletedToAdd +
                         "}"))
-                //.andDo(document("{method-name}/", relaxedRequestFields(subjectFieldDescriptor)))
                 .andExpect(status().is2xxSuccessful());
 
         //Adding Subjects with the same name should fail

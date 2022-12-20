@@ -11,8 +11,8 @@ import java.util.UUID;
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, UUID> {
 
-    @Query("Select s from Contract s Where s.toutorID = ?1 AND s.deleted = false")
-    Optional<List<Contract>> findContractByTutor(UUID toutorID);
+    @Query("Select s from Contract s Where s.tutorID = ?1 AND s.deleted = false")
+    Optional<List<Contract>> findContractByTutor(UUID tutorID);
 
     @Query("Select s from Contract s Where s.schoolerID = ?1 AND s.deleted = false")
     Optional<List<Contract>> findContractBySchooler(UUID schoolerID);

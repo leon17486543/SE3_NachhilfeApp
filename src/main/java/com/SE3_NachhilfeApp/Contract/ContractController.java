@@ -30,6 +30,18 @@ public class ContractController {
         return contractService.getById(contractId);
     }
 
+    //GET BY TUTOR
+    @GetMapping(path = "byTutor/{tutorId}")
+    public List<Contract> getByTutor(@PathVariable("tutorId") UUID tutorId){
+        return contractService.getByTutor(tutorId);
+    }
+
+    //GET BY SCHOOLER
+    @GetMapping(path = "bySchooler/{schoolerId}")
+    public List<Contract> getBySchooler(@PathVariable("schoolerId") UUID schoolerId){
+        return contractService.getBySchooler(schoolerId);
+    }
+
     //ADD NEW
     @PostMapping(path = "add")
     public void createNew(@RequestBody Contract contract){
@@ -44,7 +56,8 @@ public class ContractController {
 
     //UPDATE BY ID
     @PutMapping(path = "update/{contractId}")
-    public void updateById(@PathVariable("contractId") UUID contractId, @RequestBody UUID subjectId){
+    public void updateById(@PathVariable("contractId") UUID contractId,
+                           @RequestParam() UUID subjectId){
         contractService.updateById(contractId, subjectId);
     }
 }
