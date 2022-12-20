@@ -1,0 +1,51 @@
+:stylesheet: ../boot-darkly.css
+
+= Offer
+
+== Fields and Data-Types
+
+include::{snippets}/test-offer/test-get-all/response-fields.adoc[]
+
+== Get all
+Example Request
+include::{snippets}/test-offer/test-get-all/http-request.adoc[]
+Example Response
+include::{snippets}/test-offer/test-get-all/http-response.adoc[]
+
+== Get by id
+Example Request
+include::{snippets}/test-offer/test-get-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-offer/test-get-by-id/http-response.adoc[]
+
+== Get by User
+Example Request
+include::{snippets}/test-offer/test-get-by-member/http-request.adoc[]
+Example Response
+include::{snippets}/test-offer/test-get-by-member/http-response.adoc[]
+
+== Add new
+Example Request
+include::{snippets}/test-offer/test-add-new/http-request.adoc[]
+Example Response
+include::{snippets}/test-offer/test-add-new/http-response.adoc[]
+
+== Delete by id
+Example Request
+include::{snippets}/test-offer/test-delete-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-offer/test-delete-by-id/http-response.adoc[]
+
+== Delete by User
+Example Request
+include::{snippets}/test-offer/test-delete-by-member/http-request.adoc[]
+Example Response
+include::{snippets}/test-offer/test-delete-by-member/http-response.adoc[]
+
+
+== Update by id
+Example Request
+include::{snippets}/test-offer/test-update-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-offer/test-update-by-id/http-response.adoc[]
+

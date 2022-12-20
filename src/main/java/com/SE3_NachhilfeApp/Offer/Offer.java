@@ -16,7 +16,8 @@ public class Offer {
 
     //Ctor
     public Offer() {}
-    public Offer(UUID subjectID, UUID memberID, boolean deleted) {
+    public Offer(UUID id, UUID subjectID, UUID memberID, boolean deleted) {
+        this.id = id;
         this.subjectID = subjectID;
         this.memberID = memberID;
         this.deleted = false;
@@ -29,6 +30,7 @@ public class Offer {
                 "id=" + id +
                 ", subjectID='" + subjectID + '\'' +
                 ", memberID='" + memberID + '\'' +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 

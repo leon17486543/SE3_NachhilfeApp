@@ -31,6 +31,12 @@ public class OfferController {
         return offerService.getById(offerId);
     }
 
+    //GET BY Member
+    @GetMapping(path = "byUser/{memberId}")
+    public List<Offer> getByMember(@PathVariable("memberId") UUID memberId){
+        return offerService.getByMember(memberId);
+    }
+
     //ADD NEW
     @PostMapping(path = "add")
     public void createNew(@RequestBody Offer offer){
@@ -38,14 +44,20 @@ public class OfferController {
     }
 
     //DELETE BY ID
-    @DeleteMapping(path = "delete/{offerId}")
+    @DeleteMapping(path = "deleteById/{offerId}")
     public void deleteById(@PathVariable("offerId") UUID offerId){
         offerService.deleteById(offerId);
     }
 
+    //DELETE BY Member
+    @DeleteMapping(path = "deleteByUser/{userId}")
+    public void deleteByMember(@PathVariable("userId") UUID userId){
+        offerService.deleteByMember(userId);
+    }
+
     //UPDATE BY ID
     @PutMapping(path = "update/{offerId}")
-    public void updateById(@PathVariable("offerId") UUID offerId, @RequestBody UUID subjectId){
+    public void updateById(@PathVariable("offerId") UUID offerId, @RequestParam UUID subjectId){
         offerService.updateById(offerId, subjectId);
     }
 }
