@@ -31,7 +31,7 @@ public class SubjectService {
     }
 
     //ADD NEW Subject
-    public void createNew(Subject subject) {
+    public Subject createNew(Subject subject) {
         Optional<Subject> subjectOptional = subjectRepository.findSubjectByName(subject.getName());
 
         if(subjectOptional.isPresent()){
@@ -40,24 +40,28 @@ public class SubjectService {
 
         subjectRepository.save(subject);
 
-        System.out.println(subject);
+        return subject;
     }
 
     //DELETE Subject BY ID
     @Transactional
-    public void deleteById(UUID id) {
+    public Subject deleteById(UUID id) {
         Subject subject = subjectRepository.findById(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         subject.setDeleted(true);
+
+        return subject;
     }
 
     //UPDATE Subject BY ID
     @Transactional
-    public void updateById(UUID subjectID, String name) {
+    public Subject updateById(UUID subjectID, String name) {
         Subject subject = subjectRepository.findById(subjectID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
 
         if(name != null && name.length()>0){
             subject.setName(name);
         }
+
+        return subject;
     }
 }

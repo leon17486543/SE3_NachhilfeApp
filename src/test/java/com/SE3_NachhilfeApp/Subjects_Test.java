@@ -3,25 +3,35 @@ package com.SE3_NachhilfeApp;
 import com.SE3_NachhilfeApp.Subjects.Subject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.http.HttpDocumentation;
+import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,10 +39,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {"spring.datasource.url=jdbc:h2:mem:testdb"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 public class Subjects_Test {
 
-    //CaN noT BE auTOWieReD mimimimii -> unimportand
-    @Autowired
     private MockMvc mockMvc;
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -42,6 +51,25 @@ public class Subjects_Test {
     String name= "Mathe";
     boolean deleted= false;
     Subject subject = new Subject(id, name, deleted);
+
+    FieldDescriptor subjectFieldDescriptor[] = new FieldDescriptor []{
+            fieldWithPath("id").optional().type(JsonFieldType.STRING).description("ID of Subject; UUID as String"),
+            fieldWithPath("name").optional().type(JsonFieldType.STRING).description("Name of Subject"),
+            fieldWithPath("deleted").optional().type(JsonFieldType.BOOLEAN).description("Is the Subject deleted")
+    };
+
+    @BeforeEach
+    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .apply(
+                        documentationConfiguration(restDocumentation)
+                            .snippets()
+                            .withDefaults(HttpDocumentation.httpRequest(),
+                                    HttpDocumentation.httpResponse()
+                            )
+                )
+                .build();
+    }
 
     @Test
     void toString_Test(){
@@ -80,6 +108,7 @@ public class Subjects_Test {
         //Mock HTTP Request
         MvcResult res = mockMvc.perform(get("/api/v1/subjects"))
                 .andExpect(status().is2xxSuccessful())
+                .andDo(document("{method-name}/", relaxedResponseFields(subjectFieldDescriptor)))
                 .andReturn();
 
         //Convert Json-Body to Subject List
@@ -97,8 +126,9 @@ public class Subjects_Test {
         Subject expected = subject;
 
         //Mock HTTP Request
-        MvcResult res = mockMvc.perform(get("/api/v1/subjects/byId/"+id))
+        MvcResult res = mockMvc.perform(get("/api/v1/subjects/byId/{subbjectId}", id))
                 .andExpect(status().is2xxSuccessful())
+                .andDo(document("{method-name}/", relaxedResponseFields(subjectFieldDescriptor)))
                 .andReturn();
 
         //Convert Json-Body to Subject List
@@ -121,8 +151,9 @@ public class Subjects_Test {
                 .content("{"+
                         "\"id\": \""+ idToAdd + "\","+
                         "\"name\": \""+ nameToAdd + "\","+
-                        "\"deleted\": \""+ deletedToAdd + "\""+
+                        "\"deleted\": "+ deletedToAdd +
                         "}"))
+                .andDo(document("{method-name}/", relaxedRequestFields(subjectFieldDescriptor)))
                 .andExpect(status().is2xxSuccessful());
 
         //Adding Subjects with the same name should fail
@@ -133,7 +164,7 @@ public class Subjects_Test {
                             .content("{"+
                                     "\"id\": \""+ idToAdd + "\","+
                                     "\"name\": \""+ nameToAdd + "\","+
-                                    "\"deleted\": \""+ deletedToAdd + "\""+
+                                    "\"deleted\": "+ deletedToAdd +
                                     "}"))
                     .andExpect(status().is2xxSuccessful());
         }catch (Exception e){
@@ -152,8 +183,9 @@ public class Subjects_Test {
 
         //DELETE
         //Mock HTTP Request
-        mockMvc.perform(delete("/api/v1/subjects/delete/"+id))
+        mockMvc.perform(delete("/api/v1/subjects/delete/{id}",id))
                 .andExpect(status().is2xxSuccessful())
+                .andDo(document("{method-name}/"))
                 .andReturn();
 
         //GET to verify
@@ -180,6 +212,7 @@ public class Subjects_Test {
         //Mock HTTP Request
         mockMvc.perform(put("/api/v1/subjects/update/"+id+"?name="+newName))
                 .andExpect(status().is2xxSuccessful())
+                .andDo(document("{method-name}/"))
                 .andReturn();
 
         //GET to verify
