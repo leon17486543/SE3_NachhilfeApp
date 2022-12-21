@@ -50,7 +50,7 @@ public class TestAssignment {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    //Expected Subject as of "createSubject.sql"
+    //Expected Assignment as of "createAssignment.sql"
     UUID id= UUID.fromString("67de3f07-f7ab-4359-a5a8-360827690e9b");
     UUID owner = UUID.fromString("dd5ea7ff-b60c-40fe-a1fa-120ec996b5b5");
     UUID subject = UUID.fromString("7de99560-eaf5-442e-a806-ba3bdbb7dd27");

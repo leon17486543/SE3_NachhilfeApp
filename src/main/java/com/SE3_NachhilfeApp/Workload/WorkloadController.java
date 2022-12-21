@@ -31,8 +31,20 @@ public class WorkloadController {
         return workloadService.getById(workloadId);
     }
 
+    //GET BY Schooler
+    @GetMapping(path = "bySchooler/{schoolerId}")
+    public List<Workload> getBySchooler(@PathVariable("schoolerId") UUID schoolerId){
+        return	workloadService.getBySchooler(schoolerId);
+    }
+
+    //GET BY Tutor
+    @GetMapping(path = "byTutor/{tutorId}")
+    public List<Workload> getByTutor(@PathVariable("tutorId") UUID tutorId){
+        return	workloadService.getByTutor(tutorId);
+    }
+
     //ADD NEW
-    @PostMapping
+    @PostMapping(path="add")
     public void createNew(@RequestBody Workload workload){
         workloadService.createNew(workload);
     }
@@ -45,7 +57,7 @@ public class WorkloadController {
 
     //UPDATE BY ID
     @PutMapping(path = "update/{workloadId}")
-    public void updateById(@PathVariable("workloadId") UUID workloadId, @RequestBody LocalDate dueDate){
+    public void updateById(@PathVariable("workloadId") UUID workloadId, @RequestParam LocalDate dueDate){
         workloadService.updateById(workloadId, dueDate);
     }
 }
