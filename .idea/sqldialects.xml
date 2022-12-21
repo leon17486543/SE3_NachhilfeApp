@@ -7,6 +7,6 @@
     <file url="file://$PROJECT_DIR$/src/test/resources/com/SE3_NachhilfeApp/createOffer.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/test/resources/com/SE3_NachhilfeApp/createSubject.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/test/resources/com/SE3_NachhilfeApp/createTask.sql" dialect="GenericSQL" />
-    <file url="PROJECT" dialect="H2" />
+    <file url="PROJECT" dialect="GenericSQL" />
   </component>
 </project>

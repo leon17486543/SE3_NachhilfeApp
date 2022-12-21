@@ -14,18 +14,19 @@ public class Workload {
     private UUID id = UUID.randomUUID();
     private UUID assignmentID;
     private UUID schoolerID;
-    private UUID toutorID;
+    private UUID tutorID;
     private UUID submissionID;
     private LocalDate dueDate;
     private boolean deleted;
 
     //Ctor
     public Workload() {}
-    public Workload(UUID assignmentID, UUID schoolerID, UUID toutorID, UUID submissionID, LocalDate dueDate, boolean deleted) {
+    public Workload(UUID id, UUID assignmentID, UUID schoolerID, UUID tutorID, UUID submissionID, LocalDate dueDate, boolean deleted) {
+        this.id = id;
         this.assignmentID = assignmentID;
         this.schoolerID = schoolerID;
         this.submissionID = submissionID;
-        this.toutorID = toutorID;
+        this.tutorID = tutorID;
         this.dueDate = dueDate;
         this.deleted = false;
     }
@@ -36,9 +37,11 @@ public class Workload {
         return "Workload{" +
                 "id=" + id +
                 ", assignmentID='" + assignmentID + '\'' +
-                ", userID='" + schoolerID + '\'' +
+                ", schoolerID='" + schoolerID + '\'' +
+                ", tutorID='" + tutorID + '\'' +
                 ", submissionID='" + submissionID + '\'' +
                 ", dueDate='" + dueDate + '\'' +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 
@@ -73,11 +76,11 @@ public class Workload {
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
-    public UUID getToutorID() {
-        return toutorID;
+    public UUID getTutorID() {
+        return tutorID;
     }
-    public void setToutorID(UUID toutorID) {
-        this.toutorID = toutorID;
+    public void setTutorID(UUID toutorID) {
+        this.tutorID = toutorID;
     }
     public boolean isDeleted() {
         return deleted;

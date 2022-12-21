@@ -1,6 +1,8 @@
 package com.SE3_NachhilfeApp.Workload;
 
 
+import com.SE3_NachhilfeApp.Assignment.Assignment;
+import com.SE3_NachhilfeApp.Submission.SubmissionRepository;
 import com.SE3_NachhilfeApp.Submission.SubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,17 @@ public class WorkloadService {
 
     private final WorkloadRepository workloadRepository;
     private final SubmissionService submissionService;
+    private final SubmissionRepository submissionRepository;
 
     private final String doesNotExistMsg = "Workload does not exist";
+    private final String doesNotExistMsgByTutor = "Tutor has no Workloads";
+    private final String doesNotExistMsgBySchooler = "Schooler has no Workloads";
 
     @Autowired
-    public WorkloadService(WorkloadRepository workloadRepository, SubmissionService submissionService) {
+    public WorkloadService(WorkloadRepository workloadRepository, SubmissionService submissionService, SubmissionRepository submissionRepository) {
         this.workloadRepository = workloadRepository;
         this.submissionService = submissionService;
+        this.submissionRepository = submissionRepository;
     }
 
     //GET ALL
@@ -32,6 +38,16 @@ public class WorkloadService {
     //GET Workload BY ID
     public Workload getById(UUID workloadID){
         return workloadRepository.findById(workloadID).orElseThrow(() -> new IllegalStateException(doesNotExistMsg));
+    }
+
+    //GET Workload BY Schooler
+    public List<Workload> getBySchooler(UUID id){
+        return workloadRepository.findWorkloadBySchooler(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsgBySchooler));
+    }
+
+    //GET Workload BY Tutor
+    public List<Workload> getByTutor(UUID id){
+        return workloadRepository.findWorkloadByTutor(id).orElseThrow(() -> new IllegalStateException(doesNotExistMsgByTutor));
     }
 
     //ADD NEW Workload
@@ -46,7 +62,9 @@ public class WorkloadService {
 
         workload.setDeleted(true);
 
-        submissionService.deleteById(workload.getSubmissionID());
+        if(submissionRepository.existsById(workload.getSubmissionID())){
+            submissionService.deleteById(workload.getSubmissionID());
+        }
     }
 
     //UPDATE Workload BY ID
