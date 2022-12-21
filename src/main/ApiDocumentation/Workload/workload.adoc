@@ -24,7 +24,7 @@ include::{snippets}/test-workload/test-get-by-schooler/http-request.adoc[]
 Example Response
 include::{snippets}/test-workload/test-get-by-schooler/http-response.adoc[]
 
-== Get by stutorId
+== Get by tutorId
 Example Request
 include::{snippets}/test-workload/test-get-by-tutor/http-request.adoc[]
 Example Response
