@@ -44,7 +44,6 @@ public class SubmissionController {
         submissionService.deleteById(submissionId);
     }
 
-
     //UPDATE BY ID
     @PutMapping(path = "update/{submissionId}")
     public void updateById(@PathVariable("submissionId") UUID submissionId, @RequestBody LocalDate date){

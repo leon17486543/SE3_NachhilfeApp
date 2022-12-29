@@ -40,8 +40,10 @@ public class MemberService {
     }
 
     //ADD NEW Member
-    public void createNew(Member member) {
+    public UUID createNew(Member member) {
         memberRepository.save(member);
+
+        return member.getId();
     }
 
     //DELETE Member BY ID

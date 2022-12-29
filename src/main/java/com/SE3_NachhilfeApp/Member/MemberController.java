@@ -32,8 +32,8 @@ public class MemberController {
 
     //ADD NEW
     @PostMapping(path = "add")
-    public void createNew(@RequestBody Member member){
-        memberService.createNew(member);
+    public UUID createNew(@RequestBody Member member){
+        return memberService.createNew(member);
     }
 
     //DELETE BY ID
