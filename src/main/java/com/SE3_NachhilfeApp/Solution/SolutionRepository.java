@@ -13,6 +13,6 @@ import java.util.UUID;
 @Repository
 public interface SolutionRepository extends JpaRepository<Solution, UUID> {
 
-    @Query("Select s from Solution s Where s.submisionID = ?1")
+    @Query("Select s from Solution s Where s.submissionID = ?1")
     Optional<List<Solution>> findSolutionBySubmission(UUID submissionId);
 }

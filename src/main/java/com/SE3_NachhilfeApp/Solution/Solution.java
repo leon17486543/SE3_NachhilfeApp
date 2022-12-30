@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -13,15 +12,15 @@ public class Solution {
     @Id
     private UUID id = UUID.randomUUID();
     private UUID taskID;
-    private UUID submisionID;
+    private UUID submissionID;
     private String solutionText;
     private boolean deleted;
 
     //Ctor
     public Solution() {}
-    public Solution(UUID taskID, UUID submisionID, String solutionText, boolean deleted) {
+    public Solution(UUID taskID, UUID submissionID, String solutionText, boolean deleted) {
         this.taskID = taskID;
-        this.submisionID = submisionID;
+        this.submissionID = submissionID;
         this.solutionText = solutionText;
         this.deleted = false;
     }
@@ -31,7 +30,6 @@ public class Solution {
     public String toString() {
         return "Solution{" +
                 "id=" + id +
-                ", taskID='" + taskID + '\'' +
                 ", solutionText='" + solutionText + '\'' +
                 '}';
     }
@@ -49,17 +47,17 @@ public class Solution {
     public void setTaskID(UUID taskID) {
         this.taskID = taskID;
     }
+    public UUID getSubmissionID() {
+        return submissionID;
+    }
+    public void setSubmissionID(UUID submisionID) {
+        this.submissionID = submisionID;
+    }
     public String getSolutionText() {
         return solutionText;
     }
     public void setSolutionText(String solutionText) {
         this.solutionText = solutionText;
-    }
-    public UUID getSubmisionID() {
-        return submisionID;
-    }
-    public void setSubmisionID(UUID submisionID) {
-        this.submisionID = submisionID;
     }
     public boolean isDeleted() {
         return deleted;
