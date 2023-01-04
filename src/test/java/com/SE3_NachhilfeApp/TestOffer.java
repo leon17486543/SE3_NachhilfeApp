@@ -169,6 +169,27 @@ public class TestOffer {
     }
 
     @Test
+    @Sql("createOffer.sql")
+    void testGetBySubject() throws Exception{
+        //Prepare Expected
+        List<Offer> expected = new ArrayList<>();
+        expected.add(offer);
+
+        //Mock HTTP Request
+        MvcResult res = mockMvc.perform(get(address+"/bySubject/{subjectId}", subjectId))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document(asciiDocPath, relaxedResponseFields(fieldDescriptors)))
+                .andReturn();
+
+        //Convert Json-Body to Member List
+        String jsonBody = res.getResponse().getContentAsString();
+        List<Offer> actual = objectMapper.readValue(jsonBody, new TypeReference<List<Offer>>(){});
+
+        //Assertion
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
     void testAddNew() throws Exception{
 
         mockMvc.perform(post(address+"/add")

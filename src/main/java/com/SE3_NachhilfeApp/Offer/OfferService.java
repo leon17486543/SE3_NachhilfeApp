@@ -37,6 +37,11 @@ public class OfferService {
         return offerRepository.findOfferByMember(memberID).orElseThrow(() -> new IllegalStateException(hasNoOffersMsg));
     }
 
+    //GET Offer BY Subject
+    public List<Offer> getBySubject(UUID subjectID){
+        return offerRepository.findOfferBySubject(subjectID).orElseThrow(() -> new IllegalStateException(hasNoOffersMsg));
+    }
+
     //ADD NEW Offer
     public void addNew(Offer offer) {
         offerRepository.save(offer);

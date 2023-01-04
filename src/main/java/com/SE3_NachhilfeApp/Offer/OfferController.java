@@ -37,6 +37,12 @@ public class OfferController {
         return offerService.getByMember(memberId);
     }
 
+    //GET BY Subject
+    @GetMapping(path = "bySubject/{subjectId}")
+    public List<Offer> getBySubject(@PathVariable("subjectId") UUID subjectId){
+        return offerService.getBySubject(subjectId);
+    }
+
     //ADD NEW
     @PostMapping(path = "add")
     public void createNew(@RequestBody Offer offer){

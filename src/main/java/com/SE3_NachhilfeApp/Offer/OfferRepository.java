@@ -14,4 +14,7 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
     @Query("Select s from Offer s Where s.memberID = ?1")
     Optional<List<Offer>> findOfferByMember(UUID memberID);
 
+    @Query("Select s from Offer s Where s.subjectID = ?1")
+    Optional<List<Offer>> findOfferBySubject(UUID subjectID);
+
 }
