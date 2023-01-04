@@ -1,0 +1,38 @@
+:stylesheet: ../boot-darkly.css
+
+= Solution
+
+== Fields and Data-Types
+
+include::{snippets}/test-solution/test-get-all/response-fields.adoc[]
+
+== Get all
+Example Request
+include::{snippets}/test-solution/test-get-all/http-request.adoc[]
+Example Response
+include::{snippets}/test-solution/test-get-all/http-response.adoc[]
+
+== Get by id
+Example Request
+include::{snippets}/test-solution/test-get-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-solution/test-get-by-id/http-response.adoc[]
+
+== Add new
+Example Request
+include::{snippets}/test-solution/test-add-new/http-request.adoc[]
+Example Response
+include::{snippets}/test-solution/test-add-new/http-response.adoc[]
+
+== Delete by id
+Example Request
+include::{snippets}/test-solution/test-delete-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-solution/test-delete-by-id/http-response.adoc[]
+
+== Update by id
+Example Request
+include::{snippets}/test-solution/test-update-by-id/http-request.adoc[]
+Example Response
+include::{snippets}/test-solution/test-update-by-id/http-response.adoc[]
+

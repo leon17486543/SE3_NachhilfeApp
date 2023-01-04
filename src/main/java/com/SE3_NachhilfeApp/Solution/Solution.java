@@ -18,7 +18,8 @@ public class Solution {
 
     //Ctor
     public Solution() {}
-    public Solution(UUID taskID, UUID submissionID, String solutionText, boolean deleted) {
+    public Solution( UUID id, UUID taskID, UUID submissionID, String solutionText, boolean deleted) {
+        this.id = id;
         this.taskID = taskID;
         this.submissionID = submissionID;
         this.solutionText = solutionText;
@@ -30,7 +31,10 @@ public class Solution {
     public String toString() {
         return "Solution{" +
                 "id=" + id +
+                ", taskID='" + taskID + '\'' +
+                ", submissionID='" + submissionID + '\'' +
                 ", solutionText='" + solutionText + '\'' +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 
