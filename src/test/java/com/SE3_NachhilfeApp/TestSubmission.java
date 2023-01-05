@@ -1,8 +1,9 @@
 package com.SE3_NachhilfeApp;
 
-import com.SE3_NachhilfeApp.Solution.Solution;
+import com.SE3_NachhilfeApp.Submission.Submission;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -40,33 +43,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(properties = {"spring.datasource.url=jdbc:h2:mem:testdb"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-public class TestSolution {
+public class TestSubmission {
 
-    private static final String address = "/api/v1/solution";
+    private static final String address = "/api/v1/submission";
     private static final String asciiDocPath = "{class-name}/{method-name}/";
 
     private MockMvc mockMvc;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    //Expected Solution as of "createSolution.sql"
-    UUID id= UUID.fromString("fd484480-ad19-4998-acc3-51721072fa27");
-    UUID taskID = UUID.fromString("540ae4c8-5929-4d7b-a055-7b5aacc8ad1f");
-    UUID submissionID = UUID.fromString("c5922b55-853e-42c4-b20b-fb07bcc03496");
-    String solutionText = "solution text";
+    //Expected Submission as of "createSubmission.sql"
+    UUID id= UUID.fromString("a4f1859f-6fe5-4909-8bdb-22430689cc18");
+    LocalDate submissionDate = LocalDate.parse("24/12/2025",  DateTimeFormatter.ofPattern("d/MM/yyyy"));
     boolean deleted = false;
-    Solution solution = new Solution(id, taskID, submissionID, solutionText, deleted);
+    Submission submission = new Submission(id, submissionDate, deleted);
 
     FieldDescriptor[] fieldDescriptors = new FieldDescriptor []{
-            fieldWithPath("id").optional().type(JsonFieldType.STRING).description("ID of Solution; UUID as String; Will be Autoset on creation"),
-            fieldWithPath("taskID").optional().type(JsonFieldType.STRING).description("Id of Task; UUID as String"),
-            fieldWithPath("submissionID").optional().type(JsonFieldType.STRING).description("Id of submission; UUID as String"),
-            fieldWithPath("solutionText").optional().type(JsonFieldType.STRING).description("user solution as String"),
-            fieldWithPath("deleted").optional().type(JsonFieldType.BOOLEAN).description("Is the Solution deleted")
+            fieldWithPath("id").optional().type(JsonFieldType.STRING).description("ID of Submission; UUID as String; Will be Autoset on creation"),
+            fieldWithPath("submisssionDate").optional().type(JsonFieldType.STRING).description("Date of submission"),
+            fieldWithPath("deleted").optional().type(JsonFieldType.BOOLEAN).description("Is the Submission deleted")
     };
 
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+        objectMapper.findAndRegisterModules();
+
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(
                         documentationConfiguration(restDocumentation)
@@ -80,44 +81,36 @@ public class TestSolution {
 
     @Test
     void testToString(){
-        String expected = "Solution{" +
-                    "id=" + id +
-                    ", taskID='" + taskID + '\'' +
-                    ", submissionID='" + submissionID + '\'' +
-                    ", solutionText='" + solutionText + '\'' +
-                    ", deleted='" + deleted + '\'' +
-                    '}';
+        String expected = "Submission{" +
+                "id=" + id +
+                ", submissionDate='" + submissionDate + '\'' +
+                ", deleted='" + deleted + '\'' +
+                '}';
 
-        assertEquals(expected, solution.toString());
+        assertEquals(expected, submission.toString());
     }
 
     @Test
     void testGetAndSet(){
         UUID newId= UUID.fromString("fd484480-ad19-4998-acc3-51721072fa26");
-        UUID newTaskID = UUID.fromString("540ae4c8-5929-4d7b-a055-7b5aacc8ad2f");
-        UUID newSubmissionID = UUID.fromString("c5922b55-853e-42c4-b20b-fb07bcc03495");
-        String newSolutionText = "solution text";
+        LocalDate newSubmissionDate = LocalDate.parse("25/12/2025",  DateTimeFormatter.ofPattern("d/MM/yyyy"));
         boolean newDeleted = true;
 
-        solution.setId(newId);
-        solution.setTaskID(newTaskID);
-        solution.setSubmissionID(newSubmissionID);
-        solution.setSolutionText(newSolutionText);
-        solution.setDeleted(newDeleted);
+        submission.setId(newId);
+        submission.setSubmissionDate(newSubmissionDate);
+        submission.setDeleted(newDeleted);
 
-        assertEquals(newId, solution.getId());
-        assertEquals(newTaskID, solution.getTaskID());
-        assertEquals(newSubmissionID, solution.getSubmissionID());
-        assertEquals(newSolutionText, solution.getSolutionText());
-        assertEquals(newDeleted, solution.isDeleted());
+        assertEquals(newId, submission.getId());
+        assertEquals(newSubmissionDate, submission.getSubmissionDate());
+        assertEquals(newDeleted, submission.isDeleted());
     }
 
     @Test
-    @Sql("createSolution.sql")
+    @Sql("createSubmission.sql")
     void testGetAll() throws Exception{
         //Prepare Expected
-        List<Solution> expected = new ArrayList<>();
-        expected.add(solution);
+        List<Submission> expected = new ArrayList<>();
+        expected.add(submission);
 
         //Mock HTTP Request
         MvcResult res = mockMvc.perform(get(address))
@@ -127,27 +120,27 @@ public class TestSolution {
 
         //Convert Json-Body to Member List
         String jsonBody = res.getResponse().getContentAsString();
-        List<Solution> actual = objectMapper.readValue(jsonBody, new TypeReference<List<Solution>>(){});
+        List<Submission> actual = objectMapper.readValue(jsonBody, new TypeReference<List<Submission>>(){});
 
         //Assertion
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
-    @Sql("createSolution.sql")
+    @Sql("createSubmission.sql")
     void testGetById() throws Exception{
         //Prepare Expected
-        Solution expected = solution;
+        Submission expected = submission;
 
         //Mock HTTP Request
-        MvcResult res = mockMvc.perform(get(address+"/byId/{solutionId}", id))
+        MvcResult res = mockMvc.perform(get(address+"/byId/{submissionId}", id))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document(asciiDocPath, relaxedResponseFields(fieldDescriptors)))
                 .andReturn();
 
         //Convert Json-Body to Member List
         String jsonBody = res.getResponse().getContentAsString();
-        Solution actual = objectMapper.readValue(jsonBody, Solution.class);
+        Submission actual = objectMapper.readValue(jsonBody, Submission.class);
 
         //Assertion
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -159,9 +152,7 @@ public class TestSolution {
         mockMvc.perform(post(address+"/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{"+
-                        "\"taskID\": \""+ taskID + "\"," +
-                        "\"submissionID\": \""+ submissionID + "\","+
-                        "\"solutionText\": \""+ solutionText + "\","+
+                        "\"submissionDate\": \""+ submissionDate + "\"," +
                         "\"deleted\": "+ deleted +
                         "}"))
                 .andDo(document(asciiDocPath, relaxedRequestFields(fieldDescriptors)))
@@ -170,55 +161,55 @@ public class TestSolution {
     }
 
     @Test
-    @Sql("createSolution.sql")
+    @Sql("createSubmission.sql")
     void testDeleteById() throws Exception{
         //Prepare Expected
-        Solution expected = solution;
+        Submission expected = submission;
         expected.setDeleted(true);
 
         //DELETE
         //Mock HTTP Request
-        mockMvc.perform(delete(address+"/delete/{solutionId}",id))
+        mockMvc.perform(delete(address+"/delete/{submissionId}",id))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document(asciiDocPath))
                 .andReturn();
 
         //GET to verify
         //Mock HTTP Request
-        MvcResult res = mockMvc.perform(get(address+"/byId/{solutionId}", id))
+        MvcResult res = mockMvc.perform(get(address+"/byId/{submissionId}", id))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
         //Convert Json-Body to Member List
         String jsonBody = res.getResponse().getContentAsString();
-        Solution actual = objectMapper.readValue(jsonBody, Solution.class);
+        Submission actual = objectMapper.readValue(jsonBody, Submission.class);
 
         //Assertion
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
-    @Sql("createSolution.sql")
+    @Sql("createSubmission.sql")
     void testUpdateById() throws Exception{
         //Prepare Expected
-        String newSolutionText = "new solution text";
-        Solution expected = solution;
-        expected.setSolutionText(newSolutionText);
+        LocalDate newSubmissionDate = LocalDate.parse("25/12/2025",  DateTimeFormatter.ofPattern("d/MM/yyyy"));
+        Submission expected = submission;
+        expected.setSubmissionDate(newSubmissionDate);
 
         //DELETE
         //Mock HTTP Request
-        mockMvc.perform(put(address+"/update/"+id+"?solutionText="+newSolutionText))
+        mockMvc.perform(put(address+"/update/"+id+"?submissionDate="+newSubmissionDate))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document(asciiDocPath))
                 .andReturn();
 
         //GET to verify
         //Mock HTTP Request
-        MvcResult res = mockMvc.perform(get(address+"/byId/{solutionId}", id))
+        MvcResult res = mockMvc.perform(get(address+"/byId/{submissionId}", id))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
         //Convert Json-Body to Member List
         String jsonBody = res.getResponse().getContentAsString();
-        Solution actual = objectMapper.readValue(jsonBody, Solution.class);
+        Submission actual = objectMapper.readValue(jsonBody, Submission.class);
 
         //Assertion
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

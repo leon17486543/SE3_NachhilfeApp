@@ -17,17 +17,19 @@ public class Submission {
 
     //Ctor
     public Submission() {}
-    public Submission(LocalDate submissionDate, boolean deleted) {
+    public Submission(UUID id, LocalDate submissionDate, boolean deleted) {
+        this.id = id;
         this.submissionDate = submissionDate;
-        this.deleted = false;
+        this.deleted = deleted;
     }
 
     //toString
     @Override
     public String toString() {
-        return "Workload{" +
+        return "Submission{" +
                 "id=" + id +
                 ", submissionDate='" + submissionDate + '\'' +
+                ", deleted='" + deleted + '\'' +
                 '}';
     }
 

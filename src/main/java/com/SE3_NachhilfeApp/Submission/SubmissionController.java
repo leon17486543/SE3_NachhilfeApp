@@ -32,7 +32,7 @@ public class SubmissionController {
     }
 
     //ADD NEW
-    @PostMapping
+    @PostMapping(path = "add")
     public void createNew(@RequestBody Submission submission){
         submissionService.createNew(submission);
     }
@@ -46,7 +46,7 @@ public class SubmissionController {
 
     //UPDATE BY ID
     @PutMapping(path = "update/{submissionId}")
-    public void updateById(@PathVariable("submissionId") UUID submissionId, @RequestBody LocalDate date){
-        submissionService.updateById(submissionId, date);
+    public void updateById(@PathVariable("submissionId") UUID submissionId, @RequestParam LocalDate submissionDate){
+        submissionService.updateById(submissionId, submissionDate);
     }
 }
